@@ -20,7 +20,7 @@ class ProductRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return Product[] Returns an array of Product objects
+    //  * @return ProductFixtures[] Returns an array of ProductFixtures objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class ProductRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Product
+    public function findOneBySomeField($value): ?ProductFixtures
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.exampleField = :val')
