@@ -10,7 +10,7 @@ use Faker\Factory;
 use Faker\Generator;
 
 
-class ClientFixtures extends Fixture
+class ClientUserFixtures extends Fixture
 {
 
     /** @var Generator */
@@ -46,7 +46,6 @@ class ClientFixtures extends Fixture
                 ->setPassword($this->faker->password)
                 ->setEmail($this->faker->email)
                 ->addClient($this->faker->randomElement($clients));
-
 
             $manager->persist($user);
         }
