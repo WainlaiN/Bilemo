@@ -18,18 +18,21 @@ class User
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups("user:read")
+     * @Groups("client:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("user:read")
+     * @Groups("client:read")
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("user:read")
+     * @Groups("client:read")
      */
     private $email;
 
@@ -40,6 +43,7 @@ class User
 
     /**
      * @ORM\ManyToMany(targetEntity=Client::class, mappedBy="users")
+     * @Groups("user:read")
      */
     private $clients;
 

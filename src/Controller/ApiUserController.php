@@ -2,31 +2,43 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class ApiUserController extends AbstractController
 {
+
     /**
      * @Route("/api/user", name="api_user_index", methods={"GET"})
+     * @param UserRepository $userRepository
+     * @return JsonResponse
      */
-    public function index(UserRepository $userRepository, NormalizerInterface $normalizer)
+    public function index(UserRepository $userRepository)
     {
         $users = $userRepository->findAll();
 
-        $normalisesUsers = $normalizer->normalize($users, null, ['groups' => 'user:read']);
+        return $this->json($users, 200, [], ['groups' => 'user:read']);
 
-        $json = json_encode($normalisesUsers);
+    }
 
-        $response = new Response($json, 200, [
-            "Content-Type" => "application/json"
-        ]);
+    /**
+     * @Route("/api/user", name="api_user_create", methods={"POST"})
+     * @param UserRepository $userRepository
+     * @return JsonResponse
+     */
+    public function create(EntityManagerInterface $manager, Request $request, SerializerInterface $serializer)
+    {
+        $json = $request->getContent();
 
-        return $response;
+        $user = $serializer->deserialize($json, User::class, 'json');
 
+        dd($user);
 
 
     }
