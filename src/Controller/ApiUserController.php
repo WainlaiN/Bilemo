@@ -32,11 +32,14 @@ class ApiUserController extends AbstractController
      * @param UserRepository $userRepository
      * @return JsonResponse
      */
-    public function create(EntityManagerInterface $manager, Request $request, SerializerInterface $serializer)
+    public function create(Request $request, SerializerInterface $serializer, EntityManagerInterface $manager)
     {
         $json = $request->getContent();
 
         $user = $serializer->deserialize($json, User::class, 'json');
+
+        $manager->persist($user);
+        $manager->flush();
 
         dd($user);
 
