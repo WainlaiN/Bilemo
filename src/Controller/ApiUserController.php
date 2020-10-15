@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class ApiUserController extends AbstractController
@@ -36,12 +37,23 @@ class ApiUserController extends AbstractController
     {
         $json = $request->getContent();
 
-        $user = $serializer->deserialize($json, User::class, 'json');
+        try {
 
-        $manager->persist($user);
-        $manager->flush();
+            $user = $serializer->deserialize($json, User::class, 'json');
 
-        return $this->json($user, 201, [], ['groups' => 'user:read']);
+            $manager->persist($user);
+            $manager->flush();
+
+            return $this->json($user, 201, [], ['groups' => 'user:read']);
+
+        } catch (NotEncodableValueException $e) {
+            return $this->json([
+                'status' => 400,
+                'message' => $e->getMessage()
+            ], 400);
+
+        }
+
 
 
     }
