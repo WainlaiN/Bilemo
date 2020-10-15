@@ -41,7 +41,7 @@ class ApiUserController extends AbstractController
         $manager->persist($user);
         $manager->flush();
 
-        dd($user);
+        return $this->json($user, 201, [], ['groups' => 'user:read']);
 
 
     }
