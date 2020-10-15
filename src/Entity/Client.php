@@ -23,12 +23,14 @@ class Client
 
     /**
      * @ORM\Column(type="string", length=255)
-     *
+     * @Groups("client:read")
+     * @Groups("user:read")
      */
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="clients")
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="clients")
+     * @Groups("client:read")
      */
     private $users;
 
