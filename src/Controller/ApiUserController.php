@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ApiUserController extends AbstractController
 {
@@ -33,13 +34,23 @@ class ApiUserController extends AbstractController
      * @param UserRepository $userRepository
      * @return JsonResponse
      */
-    public function create(Request $request, SerializerInterface $serializer, EntityManagerInterface $manager)
-    {
+    public function create(
+        Request $request,
+        SerializerInterface $serializer,
+        EntityManagerInterface $manager,
+        ValidatorInterface $validator
+    ) {
         $json = $request->getContent();
 
         try {
 
             $user = $serializer->deserialize($json, User::class, 'json');
+
+            $errors = $validator->validate($user);
+
+            if (count($errors) > 0) {
+                return $this->json($errors, 400);
+            }
 
             $manager->persist($user);
             $manager->flush();
@@ -47,13 +58,15 @@ class ApiUserController extends AbstractController
             return $this->json($user, 201, [], ['groups' => 'user:read']);
 
         } catch (NotEncodableValueException $e) {
-            return $this->json([
-                'status' => 400,
-                'message' => $e->getMessage()
-            ], 400);
+            return $this->json(
+                [
+                    'status' => 400,
+                    'message' => $e->getMessage(),
+                ],
+                400
+            );
 
         }
-
 
 
     }
