@@ -31,7 +31,10 @@ class ApiUserController extends AbstractController
 
     /**
      * @Route("/api/user", name="api_user_create", methods={"POST"})
-     * @param UserRepository $userRepository
+     * @param Request $request
+     * @param SerializerInterface $serializer
+     * @param EntityManagerInterface $manager
+     * @param ValidatorInterface $validator
      * @return JsonResponse
      */
     public function create(
