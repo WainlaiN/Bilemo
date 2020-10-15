@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ea7a70ac-6d80-432f-b3be-84d8dbdfaf10" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/Bilemo.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Bilemo.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
-    </list>
+    <list default="true" id="ea7a70ac-6d80-432f-b3be-84d8dbdfaf10" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -107,7 +102,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1602758169935</updated>
-      <workItem from="1602758170964" duration="312000" />
+      <workItem from="1602758170964" duration="752000" />
     </task>
     <servers />
   </component>

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
@@ -16,12 +17,17 @@ class ApiUserController extends AbstractController
     {
         $users = $userRepository->findAll();
 
-        $normalisesusers = $normalizer->normalize($users, null, ['groups' => 'user:read']);
+        $normalisesUsers = $normalizer->normalize($users, null, ['groups' => 'user:read']);
 
-        dd($normalisesusers);
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/ApiUserController.php',
+        $json = json_encode($normalisesUsers);
+
+        $response = new Response($json, 200, [
+            "Content-Type" => "application/json"
         ]);
+
+        return $response;
+
+
+
     }
 }
