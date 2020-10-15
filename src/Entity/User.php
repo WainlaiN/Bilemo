@@ -17,7 +17,6 @@ class User
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("user:read")
      */
     private $id;
 
@@ -29,7 +28,6 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("user:read")
      */
     private $email;
 
@@ -39,7 +37,7 @@ class User
     private $password;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Client::class, mappedBy="users")
+     * @ORM\ManyToMany(targetEntity=Client::class, inversedBy="users")
      */
     private $clients;
 
