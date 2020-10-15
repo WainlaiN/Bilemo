@@ -2,10 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class ApiUserController extends AbstractController
 {
@@ -20,6 +24,22 @@ class ApiUserController extends AbstractController
         $users = $userRepository->findAll();
 
         return $this->json($users, 200, [], ['groups' => 'user:read']);
+
+    }
+
+    /**
+     * @Route("/api/user", name="api_user_create", methods={"POST"})
+     * @param UserRepository $userRepository
+     * @return JsonResponse
+     */
+    public function create(EntityManagerInterface $manager, Request $request, SerializerInterface $serializer)
+    {
+        $json = $request->getContent();
+
+        $user = $serializer->deserialize($json, User::class, 'json');
+
+        dd($user);
+
 
     }
 }
