@@ -37,6 +37,7 @@ class ApiUserController extends AbstractController
      * @Route("api/user/{id}", name="api_user_show", methods={"GET"})
      * @param User $user
      * @return JsonResponse
+     *
      */
     public function show(User $user)
     {
@@ -90,29 +91,20 @@ class ApiUserController extends AbstractController
         }
     }
 
+
     /**
      * @Route("api/user/{id}", name="api_user_put", methods={"PUT"})
-     * @param Request $request
-     * @param SerializerInterface $serializer
+     * @ParamConverter("user", converter="user_put")
+     * @param User $user
      * @param EntityManagerInterface $manager
      * @param ValidatorInterface $validator
      * @return JsonResponse
      */
     public function put(
         User $user,
-        Request $request,
-        SerializerInterface $serializer,
         EntityManagerInterface $manager,
         ValidatorInterface $validator
     ) {
-
-        $json = $request->getContent();
-        $user = $serializer->deserialize(
-            $json,
-            User::class,
-            'json',
-            [AbstractNormalizer::OBJECT_TO_POPULATE => $user]
-        );
 
         $errors = $validator->validate($user);
 

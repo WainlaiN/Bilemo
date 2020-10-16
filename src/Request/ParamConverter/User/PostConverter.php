@@ -1,20 +1,19 @@
 <?php
 
 
-namespace App\Request\ParamConverter;
+namespace App\Request\ParamConverter\User;
 
 
-use App\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**
- * Class UserConverter
+ * Class PostConverter
  * @package App\Request\ParamConverter
  */
-class UserConverter implements ParamConverterInterface
+class PostConverter implements ParamConverterInterface
 {
     /**
      * @var SerializerInterface
@@ -28,10 +27,12 @@ class UserConverter implements ParamConverterInterface
 
     public function apply(Request $request, ParamConverter $configuration)
     {
+        if (!$request->isMethod('POST')) {
+            return;
+        }
         $user = $this->serializer->deserialize($request->getContent(), $configuration->getClass(), 'json');
 
         $request->attributes->set($configuration->getName(), $user);
-
 
     }
 

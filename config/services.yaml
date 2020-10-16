@@ -30,9 +30,14 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    App\Request\ParamConverter\:
-        resource: '../src/Request/ParamConverter'
+    App\Request\ParamConverter\User\PostConverter:
         tags:
-          - { name : 'request.param_converter', converter: 'user_post' }
+            - { name : 'request.param_converter', converter: 'user_post' }
+
+    App\Request\ParamConverter\User\PutConverter:
+        tags:
+            - { name: 'request.param_converter', converter: 'user_put' }
+
+
 
 
