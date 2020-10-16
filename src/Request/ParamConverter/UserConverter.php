@@ -16,20 +16,19 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 class UserConverter implements ParamConverterInterface
 {
-
     /**
      * @var SerializerInterface
      */
-    private SerializerInterface $serializer;
+    private $serializer;
 
     public function __construct(SerializerInterface $serializer)
     {
-        $serializer = $this->getSerializer();
+        $this->serializer = $serializer;
     }
 
     public function apply(Request $request, ParamConverter $configuration)
     {
-        $user = $this->serializer->deserialize($request->getContent(), User::class, 'json');
+        $user = $this->serializer->deserialize($request->getContent(), $configuration->getClass(), 'json');
 
         $request->attributes->set($configuration->getName(), $user);
 
