@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,6 +15,7 @@ use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+
 
 class ApiUserController extends AbstractController
 {
@@ -42,26 +44,21 @@ class ApiUserController extends AbstractController
     }
 
     /**
-     * @Route("/api/user", name="api_user_create", methods={"POST"})
-     * @param Request $request
-     * @param SerializerInterface $serializer
+     * @Route("/api/user", name="api_user_post", methods={"POST"})
+     * @ParamConverter("user", converter="user_post")
+     * @param User $user
      * @param EntityManagerInterface $manager
      * @param ValidatorInterface $validator
      * @return JsonResponse
      */
-    public function create(
-        Request $request,
-        SerializerInterface $serializer,
+    public function post(
+        User $user,
         EntityManagerInterface $manager,
         ValidatorInterface $validator,
         UrlGeneratorInterface $urlGenerator
     ) {
-        $json = $request->getContent();
 
         try {
-
-            $user = $serializer->deserialize($json, User::class, 'json');
-
             $errors = $validator->validate($user);
 
             if (count($errors) > 0) {
@@ -124,6 +121,19 @@ class ApiUserController extends AbstractController
         }
 
         $manager->persist($user);
+        $manager->flush();
+
+        return $this->json(null, 204, []);
+    }
+
+    /**
+     * @Route("api/user/{id}", name="api_user_delete", methods={"DELETE"})
+     *
+     */
+    public function delete(User $user, EntityManagerInterface $manager)
+    {
+
+        $manager->remove($user);
         $manager->flush();
 
         return $this->json(null, 204, []);
