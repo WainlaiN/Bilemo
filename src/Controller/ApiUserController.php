@@ -50,6 +50,7 @@ class ApiUserController extends AbstractController
      * @param User $user
      * @param EntityManagerInterface $manager
      * @param ValidatorInterface $validator
+     * @param UrlGeneratorInterface $urlGenerator
      * @return JsonResponse
      */
     public function post(
@@ -120,7 +121,9 @@ class ApiUserController extends AbstractController
 
     /**
      * @Route("api/user/{id}", name="api_user_delete", methods={"DELETE"})
-     *
+     * @param User $user
+     * @param EntityManagerInterface $manager
+     * @return JsonResponse
      */
     public function delete(User $user, EntityManagerInterface $manager)
     {
