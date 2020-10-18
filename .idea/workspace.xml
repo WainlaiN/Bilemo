@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ea7a70ac-6d80-432f-b3be-84d8dbdfaf10" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Request/ParamConverter/UserPutConverter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/symfony2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/symfony2.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/services.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/services.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/ApiUserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ApiUserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Request/ParamConverter/UserConverter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Request/ParamConverter/UserPostConverter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Request/ParamConverter/User/PostConverter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Request/ParamConverter/User/PostConverter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Request/ParamConverter/User/PutConverter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Request/ParamConverter/User/PutConverter.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,6 +105,11 @@
     <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\wamp64\www\Bilemo\src\Request\ParamConverter\User" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -118,7 +120,8 @@
       <updated>1602758169935</updated>
       <workItem from="1602758170964" duration="4803000" />
       <workItem from="1602770349326" duration="7626000" />
-      <workItem from="1602831283249" duration="18378000" />
+      <workItem from="1602831283249" duration="18707000" />
+      <workItem from="1603039094737" duration="1402000" />
     </task>
     <servers />
   </component>
@@ -130,10 +133,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="765" y="240" key="#com.intellij.ide.util.MemberChooser/1920.0.1920.1050/0.0.1920.1050@0.0.1920.1050" timestamp="1602865146036" />
-    <state x="493" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1602861437571">
+    <state x="493" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1602865827976">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="493" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/1920.0.1920.1050/0.0.1920.1050@0.0.1920.1050" timestamp="1602861437571" />
+    <state x="493" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/1920.0.1920.1050/0.0.1920.1050@0.0.1920.1050" timestamp="1602865827976" />
     <state x="690" y="279" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1602861644875">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>

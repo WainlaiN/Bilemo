@@ -27,7 +27,7 @@ class PostConverter implements ParamConverterInterface
 
     public function apply(Request $request, ParamConverter $configuration)
     {
-        if (!$request->isMethod('POST')) {
+        if (!$request->isMethod(Request::METHOD_POST)) {
             return;
         }
         $user = $this->serializer->deserialize($request->getContent(), $configuration->getClass(), 'json');

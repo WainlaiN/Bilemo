@@ -38,7 +38,7 @@ class PutConverter implements ParamConverterInterface
 
     public function apply(Request $request, ParamConverter $configuration)
     {
-        if (!$request->isMethod('PUT')) {
+        if (!$request->isMethod(Request::METHOD_PUT)) {
             return;
         }
 
