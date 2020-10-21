@@ -45,7 +45,7 @@ class ClientUserFixtures extends Fixture
             $user->setUsername($this->faker->userName)
                 ->setPassword($this->faker->password)
                 ->setEmail($this->faker->email)
-                ->addClient($this->faker->randomElement($clients));
+                ->setClient($this->faker->randomElement($clients));
 
             $manager->persist($user);
         }

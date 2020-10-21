@@ -47,15 +47,11 @@ class User
     private $password;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Client::class, mappedBy="users")
+     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="users", cascade={"persist", "remove"})
      * @Groups("user:read")
      */
-    private $clients;
+    private $client;
 
-    public function __construct()
-    {
-        $this->clients = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -98,28 +94,23 @@ class User
         return $this;
     }
 
-    /**
-     * @return Collection|Client[]
-     */
-    public function getClients(): Collection
+
+    public function getClient(): Client
     {
-        return $this->clients;
+        return $this->client;
     }
 
-    public function addClient(Client $client): self
+    public function setClient(Client $client): self
     {
-        if (!$this->clients->contains($client)) {
-            $this->clients[] = $client;
-            $client->addUser($this);
-        }
+        $this->client = $client;
 
         return $this;
     }
 
     public function removeClient(Client $client): self
     {
-        if ($this->clients->contains($client)) {
-            $this->clients->removeElement($client);
+        if ($this->client->contains($client)) {
+            $this->client->removeElement($client);
             $client->removeUser($this);
         }
 

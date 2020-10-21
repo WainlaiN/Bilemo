@@ -6,10 +6,12 @@ use App\Repository\ClientRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ClientRepository::class)
+ * @UniqueEntity("name", message="ce client existe dejà")
  */
 class Client
 {
@@ -29,7 +31,7 @@ class Client
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="clients")
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="client")
      * @Groups("client:read")
      */
     private $users;

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Client;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -44,10 +45,12 @@ class ApiUserController extends AbstractController
         return $this->json($user, 200, [], ['groups' => 'user:read']);
     }
 
+
     /**
-     * @Route("/api/user", name="api_user_post", methods={"POST"})
+     * @Route("/api/user/{client}", name="api_user_post", methods={"POST"})
      * @ParamConverter("user", converter="user_post")
      * @param User $user
+     * @param Client $client
      * @param EntityManagerInterface $manager
      * @param ValidatorInterface $validator
      * @param UrlGeneratorInterface $urlGenerator
@@ -55,6 +58,7 @@ class ApiUserController extends AbstractController
      */
     public function post(
         User $user,
+        Client $client,
         EntityManagerInterface $manager,
         ValidatorInterface $validator,
         UrlGeneratorInterface $urlGenerator
@@ -67,6 +71,7 @@ class ApiUserController extends AbstractController
                 return $this->json($errors, 400);
             }
 
+            $user->setClient($client);
             $manager->persist($user);
             $manager->flush();
 
