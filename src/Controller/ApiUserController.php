@@ -35,7 +35,7 @@ class ApiUserController extends AbstractController
     }
 
     /**
-     * @Route("api/user/{id}", name="api_user_show", methods={"GET"})
+     * @Route("api/client/{id}", name="api_client_show", methods={"GET"})
      * @param User $user
      * @return JsonResponse
      *

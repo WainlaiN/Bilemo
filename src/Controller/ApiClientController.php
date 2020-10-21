@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Client;
 use App\Repository\ClientRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,6 +30,17 @@ class ApiClientController extends AbstractController
         $clients = $clientRepository->findAll();
 
         return $this->json($clients, 200, [], ['groups' => 'client:read']);
+    }
+
+    /**
+     * @Route("api/client/{id}", name="api_user_show", methods={"GET"})
+     * @param Client $client
+     * @return JsonResponse
+     *
+     */
+    public function show(Client $client)
+    {
+        return $this->json($client, 200, [], ['groups' => 'client:read']);
     }
 
 }
