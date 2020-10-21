@@ -31,7 +31,7 @@ class Client
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="client")
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="client", cascade={"persist", "remove"})
      * @Groups("client:read")
      */
     private $users;

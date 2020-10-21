@@ -47,7 +47,7 @@ class User
     private $password;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="users", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="users")
      * @Groups("user:read")
      */
     private $client;
