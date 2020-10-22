@@ -46,7 +46,7 @@ class Client implements UserInterface
     private $users;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $password;
 
@@ -74,7 +74,7 @@ class Client implements UserInterface
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(string $name)
     {
         $this->name = $name;
 
@@ -126,7 +126,7 @@ class Client implements UserInterface
     /**
      * @return mixed
      */
-    public function getPassword()
+    public function getPassword(): ?string
     {
         return $this->password;
     }
@@ -134,7 +134,7 @@ class Client implements UserInterface
     /**
      * @param mixed $password
      */
-    public function setPassword($password)
+    public function setPassword(string $password)
     {
         $this->password = $password;
     }

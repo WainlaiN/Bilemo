@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Client;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use League\OAuth2\Client\Provider\GithubResourceOwner;
 
 /**
  * @method Client|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,32 +20,32 @@ class ClientRepository extends ServiceEntityRepository
         parent::__construct($registry, Client::class);
     }
 
-    // /**
-    //  * @return ClientUserFixtures[] Returns an array of ClientUserFixtures objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findOrCreateFromGithubOauth(GithubResourceOwner $owner): Client
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
+        $client = $this->createQueryBuilder('u')
+            ->where('u.githubId = :githubId')
+            ->setParameters(
+                [
+                    'githubId' => $owner->getId(),
+                ]
+            )
             ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+            ->getOneOrNullResult();
 
-    /*
-    public function findOneBySomeField($value): ?ClientUserFixtures
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        if ($client) {
+            return $client;
+        }
+
+        $client = New Client();
+        $client->setGithubId($owner->getId());
+        $client->setEmail("test@test.com");
+        $client->setRoles();
+
+        $em = $this->getEntityManager();
+        $em->persist($client);
+        $em->flush();
+
+        return $client;
     }
-    */
+
 }

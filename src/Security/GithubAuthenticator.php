@@ -4,8 +4,11 @@
 namespace App\Security;
 
 
+use App\Repository\ClientRepository;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
+use League\OAuth2\Client\Provider\GithubResourceOwner;
+use League\OAuth2\Client\Token\AccessToken;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
@@ -20,10 +23,16 @@ class GithubAuthenticator extends SocialAuthenticator
 
     private $clientRegistry;
 
-    public function __construct(RouterInterface $router, ClientRegistry $clientRegistry)
-    {
+    private $clientRepository;
+
+    public function __construct(
+        RouterInterface $router,
+        ClientRegistry $clientRegistry,
+        ClientRepository $clientRepository
+    ) {
         $this->router = $router;
         $this->clientRegistry = $clientRegistry;
+        $this->clientRepository = $clientRepository;
 
     }
 
@@ -40,13 +49,20 @@ class GithubAuthenticator extends SocialAuthenticator
 
     public function getCredentials(Request $request)
     {
-        //dd($this->clientRegistry->getClient('github'));
         return $this->fetchAccessToken($this->clientRegistry->getClient('github'));
     }
 
+    /**
+     * @param AccessToken $credentials
+     * @param UserProviderInterface $userProvider
+     * @return \Symfony\Component\Security\Core\User\UserInterface|void|null
+     */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        dd($credentials);
+        /** @var GithubResourceOwner $GithubUser */
+        $githubUser = $this->clientRegistry->getClient('github')->fetchUserFromToken($credentials);
+
+        return $this->clientRepository->findOrCreateFromGithubOauth($githubUser);
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
@@ -56,6 +72,6 @@ class GithubAuthenticator extends SocialAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
     {
-        // TODO: Implement onAuthenticationSuccess() method.
+        return new RedirectResponse('/');
     }
 }
