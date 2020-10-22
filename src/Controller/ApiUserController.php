@@ -26,13 +26,15 @@ class ApiUserController extends AbstractController
      * @param UserRepository $userRepository
      * @return JsonResponse
      */
+
+    /** Only User can see their Client
     public function index(UserRepository $userRepository)
     {
         $users = $userRepository->findAll();
 
         return $this->json($users, 200, [], ['groups' => 'user:read']);
 
-    }
+    }**/
 
     /**
      * @Route("api/client/{id}", name="api_client_show", methods={"GET"})
@@ -40,10 +42,13 @@ class ApiUserController extends AbstractController
      * @return JsonResponse
      *
      */
+
+    /** This is manage only my Client Controller
     public function show(User $user)
     {
         return $this->json($user, 200, [], ['groups' => 'user:read']);
     }
+     **/
 
 
     /**

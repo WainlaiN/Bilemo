@@ -38,9 +38,12 @@ class ApiClientController extends AbstractController
      * @return JsonResponse
      *
      */
+
+
     public function show(Client $client)
     {
         return $this->json($client, 200, [], ['groups' => 'client:read']);
     }
+
 
 }
