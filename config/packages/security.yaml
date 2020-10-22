@@ -17,6 +17,15 @@ security:
             anonymous: true
             lazy: true
             provider: users_in_memory
+            guard:
+                entry_point: App\Security\AppAuthenticator
+                authenticators:
+                    - App\Security\AppAuthenticator
+                    - App\Security\GithubAuthenticator
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                # target: app_any_route
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication

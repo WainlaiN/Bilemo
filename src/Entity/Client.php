@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ClientRepository::class)
- * @UniqueEntity("name", message="ce client existe dejà")
+ * @UniqueEntity("email", message="ce client existe dejà")
  */
 class Client implements UserInterface
 {
@@ -25,7 +25,7 @@ class Client implements UserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups("client:read")
      * @Groups("user:read")
      */
@@ -49,6 +49,14 @@ class Client implements UserInterface
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $password;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $githubId;
+
+    /** @ORM\Column(type="json") */
+    private $roles = [];
 
 
     public function __construct()
@@ -110,7 +118,7 @@ class Client implements UserInterface
     /**
      * @param mixed $email
      */
-    public function setEmail($email): void
+    public function setEmail($email)
     {
         $this->email = $email;
     }
@@ -126,14 +134,19 @@ class Client implements UserInterface
     /**
      * @param mixed $password
      */
-    public function setPassword($password): void
+    public function setPassword($password)
     {
         $this->password = $password;
     }
 
     public function getRoles()
     {
-        // TODO: Implement getRoles() method.
+        return $this->roles;
+    }
+
+    public function setRoles()
+    {
+        $this->roles = ['ROLE_USER'];
     }
 
     public function getSalt()
@@ -149,5 +162,17 @@ class Client implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    public function getGithubId(): ?string
+    {
+        return $this->githubId;
+    }
+
+    public function setGithubId(?string $githubId): self
+    {
+        $this->githubId = $githubId;
+
+        return $this;
     }
 }

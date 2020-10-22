@@ -45,6 +45,7 @@ class ClientUserFixtures extends Fixture
             $client->setName(self::$name[$i]);
             $client ->setEmail(self::$name[$i]."@gmail.com");
             $client->setPassword($this->encoder->encodePassword($client, self::$name[$i]));
+            $client->setRoles();
 
             $manager->persist($client);
             $clients[] = $client;
