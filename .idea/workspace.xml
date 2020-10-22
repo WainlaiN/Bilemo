@@ -2,7 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ea7a70ac-6d80-432f-b3be-84d8dbdfaf10" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/Controller/ApiUserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ApiUserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Bilemo.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Bilemo.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/bundles.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/bundles.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataFixtures/ClientUserFixtures.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/ClientUserFixtures.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Client.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Client.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,6 +95,11 @@
       <path value="$PROJECT_DIR$/vendor/symfony/property-info" />
       <path value="$PROJECT_DIR$/vendor/symfony/translation-contracts" />
       <path value="$PROJECT_DIR$/vendor/symfony/validator" />
+      <path value="$PROJECT_DIR$/vendor/symfony/security-core" />
+      <path value="$PROJECT_DIR$/vendor/symfony/security-csrf" />
+      <path value="$PROJECT_DIR$/vendor/symfony/security-bundle" />
+      <path value="$PROJECT_DIR$/vendor/symfony/security-http" />
+      <path value="$PROJECT_DIR$/vendor/symfony/security-guard" />
     </include_path>
   </component>
   <component name="ProjectId" id="1iuWt9dpNKJFsuiQdwwIOYEdtHY" />
@@ -121,7 +134,8 @@
       <workItem from="1602831283249" duration="18707000" />
       <workItem from="1603039094737" duration="3007000" />
       <workItem from="1603212082937" duration="64000" />
-      <workItem from="1603302316153" duration="6963000" />
+      <workItem from="1603302316153" duration="7479000" />
+      <workItem from="1603378942272" duration="3015000" />
     </task>
     <servers />
   </component>
@@ -129,10 +143,10 @@
     <option name="version" value="3" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="765" y="240" key="#com.intellij.ide.util.MemberChooser" timestamp="1603313491287">
+    <state x="765" y="240" key="#com.intellij.ide.util.MemberChooser" timestamp="1603382309495">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="765" y="240" key="#com.intellij.ide.util.MemberChooser/1920.0.1920.1050/0.0.1920.1050@0.0.1920.1050" timestamp="1603313491287" />
+    <state x="765" y="240" key="#com.intellij.ide.util.MemberChooser/1920.0.1920.1050/0.0.1920.1050@0.0.1920.1050" timestamp="1603382309495" />
     <state x="493" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1603310711596">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
@@ -141,10 +155,10 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="690" y="279" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/1920.0.1920.1050/0.0.1920.1050@0.0.1920.1050" timestamp="1603314286030" />
-    <state x="740" y="279" key="FileChooserDialogImpl" timestamp="1603310614971">
+    <state x="740" y="279" key="FileChooserDialogImpl" timestamp="1603382412529">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="740" y="279" key="FileChooserDialogImpl/1920.0.1920.1050/0.0.1920.1050@0.0.1920.1050" timestamp="1603310614971" />
+    <state x="740" y="279" key="FileChooserDialogImpl/1920.0.1920.1050/0.0.1920.1050@0.0.1920.1050" timestamp="1603382412529" />
     <state x="540" y="259" key="IDE.errors.dialog" timestamp="1602864052702">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
