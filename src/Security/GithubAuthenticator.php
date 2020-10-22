@@ -24,6 +24,7 @@ class GithubAuthenticator extends SocialAuthenticator
     {
         $this->router = $router;
         $this->clientRegistry = $clientRegistry;
+
     }
 
     public function start(Request $request, AuthenticationException $authException = null)
@@ -39,6 +40,7 @@ class GithubAuthenticator extends SocialAuthenticator
 
     public function getCredentials(Request $request)
     {
+        //dd($this->clientRegistry->getClient('github'));
         return $this->fetchAccessToken($this->clientRegistry->getClient('github'));
     }
 
