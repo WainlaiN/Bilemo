@@ -11,12 +11,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
 class ApiUserController extends AbstractController
 {
+    private $security;
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+
+    }
 
     /**
      * @Route("/api/user", name="api_user_index", methods={"GET"})
@@ -25,7 +33,9 @@ class ApiUserController extends AbstractController
      */
     public function index(UserRepository $userRepository)
     {
-        $users = $userRepository->findAll();
+        //$users = $userRepository->findAll();
+        $users = $userRepository->findByClient($this->security->getUser());
+
 
         return $this->json($users, 200, [], ['groups' => 'user:read']);
 
@@ -44,10 +54,9 @@ class ApiUserController extends AbstractController
 
 
     /**
-     * @Route("/api/user/{client}", name="api_user_post", methods={"POST"})
+     * @Route("/api/user", name="api_user_post", methods={"POST"})
      * @ParamConverter("user", converter="user_post")
      * @param User $user
-     * @param Client $client
      * @param EntityManagerInterface $manager
      * @param ValidatorInterface $validator
      * @param UrlGeneratorInterface $urlGenerator
@@ -55,11 +64,12 @@ class ApiUserController extends AbstractController
      */
     public function post(
         User $user,
-        Client $client,
         EntityManagerInterface $manager,
         ValidatorInterface $validator,
         UrlGeneratorInterface $urlGenerator
     ) {
+
+        //dd($security->getUser());
 
         try {
             $errors = $validator->validate($user);
@@ -68,7 +78,8 @@ class ApiUserController extends AbstractController
                 return $this->json($errors, 400);
             }
 
-            $user->setClient($client);
+            $connectedClient = $this->security->getUser();
+            $user->setClient($connectedClient);
             $manager->persist($user);
             $manager->flush();
 
