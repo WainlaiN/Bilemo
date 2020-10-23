@@ -21,7 +21,7 @@ class ApiProductController extends AbstractController
     {
         $products = $productRepository->findAll();
 
-        return $this->json($products, 200, []);
+        return $this->json($products, 200, [], ['groups' => 'product:read']);
     }
 
     /**
@@ -31,6 +31,6 @@ class ApiProductController extends AbstractController
      */
     public function show(Product $product)
     {
-        return $this->json($product, 200, []);
+        return $this->json($product, 200, [], ['groups' => 'product:read']);
     }
 }

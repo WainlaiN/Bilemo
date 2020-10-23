@@ -21,8 +21,6 @@ class User
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("user:read")
-     * @Groups("client:read")
      */
     private $id;
 
@@ -43,7 +41,6 @@ class User
 
     /**
      * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="users")
-     * @Groups("user:read")
      */
     private $client;
 

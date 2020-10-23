@@ -22,7 +22,6 @@ class ApiUserController extends AbstractController
     public function __construct(Security $security)
     {
         $this->security = $security;
-
     }
 
     /**
@@ -32,9 +31,7 @@ class ApiUserController extends AbstractController
      */
     public function index(UserRepository $userRepository)
     {
-        //$users = $userRepository->findAll();
         $users = $userRepository->findByClient($this->security->getUser());
-
 
         return $this->json($users, 200, [], ['groups' => 'user:read']);
 
@@ -48,9 +45,21 @@ class ApiUserController extends AbstractController
      */
     public function show(User $user)
     {
-        return $this->json($user, 200, [], ['groups' => 'user:read']);
-    }
+        $current_client = $this->getUser();
+        //dd($current_user);
 
+        if ($current_client === $user->getClient()) {
+            return $this->json($user, 200, [], ['groups' => 'user:read']);
+        }
+
+        return $this->json(
+            [
+                'status' => 400,
+                'message' => "Client introuvable",
+            ],
+            400
+        );
+    }
 
     /**
      * @Route("/api/user", name="api_user_post", methods={"POST"})
@@ -61,14 +70,13 @@ class ApiUserController extends AbstractController
      * @param UrlGeneratorInterface $urlGenerator
      * @return JsonResponse
      */
-    public function post(
+    public
+    function post(
         User $user,
         EntityManagerInterface $manager,
         ValidatorInterface $validator,
         UrlGeneratorInterface $urlGenerator
     ) {
-
-        //dd($security->getUser());
 
         try {
             $errors = $validator->validate($user);
@@ -77,8 +85,8 @@ class ApiUserController extends AbstractController
                 return $this->json($errors, 400);
             }
 
-            $connectedClient = $this->security->getUser();
-            $user->setClient($connectedClient);
+            $current_client = $this->getUser();
+            $user->setClient($current_client);
             $manager->persist($user);
             $manager->flush();
 
@@ -97,10 +105,8 @@ class ApiUserController extends AbstractController
                     'status' => 400,
                     'message' => $e->getMessage(),
                 ],
-                400,
-
+                400
             );
-
         }
     }
 
@@ -113,7 +119,8 @@ class ApiUserController extends AbstractController
      * @param ValidatorInterface $validator
      * @return JsonResponse
      */
-    public function put(
+    public
+    function put(
         User $user,
         EntityManagerInterface $manager,
         ValidatorInterface $validator
@@ -137,13 +144,29 @@ class ApiUserController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return JsonResponse
      */
-    public function delete(User $user, EntityManagerInterface $manager)
-    {
+    public
+    function delete(
+        User $user,
+        EntityManagerInterface $manager
+    ) {
 
-        $manager->remove($user);
-        $manager->flush();
+        $current_client = $this->getUser();
+        if ($current_client === $user->getClient()) {
 
-        return $this->json(null, 204, []);
+            $manager->remove($user);
+            $manager->flush();
+
+            return $this->json(null, 204, []);
+        }
+
+        return $this->json(
+            [
+                'status' => 400,
+                'message' => "Client introuvable",
+            ],
+            400
+        );
+
 
     }
 }
