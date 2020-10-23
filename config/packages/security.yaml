@@ -1,7 +1,7 @@
 security:
     encoders:
         App\Entity\Client:
-            algorithm: auto
+            algorithm: bcrypt
     providers:
         app_user_provider:
             entity:
@@ -11,16 +11,18 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        login:
+            pattern: ^/api/login
+            stateless: true
+            anonymous: true
+            json_login:
+                check_path: /login/api_check
+                success_handler: lexik_jwt_authentication.handler.authentication_sucess
+                failure_handler: lexik_jwt_authentucation.handler.authentication_failure
         main:
             anonymous: true
-            lazy: true
 
-
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#firewalls-authentication
-
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
