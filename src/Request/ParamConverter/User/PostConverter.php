@@ -25,6 +25,11 @@ class PostConverter implements ParamConverterInterface
         $this->serializer = $serializer;
     }
 
+    /**
+     * @param Request $request
+     * @param ParamConverter $configuration
+     * @return bool|void
+     */
     public function apply(Request $request, ParamConverter $configuration)
     {
 

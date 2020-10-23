@@ -24,6 +24,7 @@ class PutConverter implements ParamConverterInterface
      */
     private $manager;
 
+
     /**
      * PutConverter constructor.
      *
@@ -36,6 +37,11 @@ class PutConverter implements ParamConverterInterface
         $this->manager = $manager;
     }
 
+    /**
+     * @param Request $request
+     * @param ParamConverter $configuration
+     * @return bool|void
+     */
     public function apply(Request $request, ParamConverter $configuration)
     {
         if (!$request->isMethod(Request::METHOD_PUT)) {
