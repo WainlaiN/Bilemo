@@ -42,11 +42,6 @@ class User
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $password;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="users")
      * @Groups("user:read")
      */
