@@ -24,10 +24,7 @@ class ApiProductController extends AbstractController
      * @OA\Response(
      *     response=200,
      *     description="Returns the products list",
-     *     @OA\JsonContent(type="string", description="test"),
-     *     @OA\Schema(
-     *         type="array",
-     *         @OA\Items(ref=@Model(type=Product::class, groups={"product:read"}))
+     *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=Product::class, groups={"product:read"}))
      *     )
      * )
      *
@@ -48,12 +45,18 @@ class ApiProductController extends AbstractController
      *
      * @Route("api/product/{id}", name="api_product_show", methods={"GET"})
      *
+     * @OA\Parameter(
+     *     name="id",
+     *     in="path",
+     *     description="resource ID",
+     *     required=true,
+     *     @OA\Schema (type="integer")
+     *     ),
      * @OA\Response(
      *     response=200,
      *     description="Returns the product detail",
-     *     @OA\Schema(
-     *         type="array",
-     *         @OA\Items(ref=@Model(type=Product::class, groups={"product:read"}))
+     *     @OA\JsonContent(
+     *         type="array",@OA\Items(ref=@Model(type=Product::class, groups={"product:read"}))
      *     )
      * )
      *
