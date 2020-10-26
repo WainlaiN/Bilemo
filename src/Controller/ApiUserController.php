@@ -14,6 +14,9 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+use OpenApi\Annotations as OA;
+use Nelmio\ApiDocBundle\Annotation\Model;
+
 
 class ApiUserController extends AbstractController
 {
@@ -25,7 +28,19 @@ class ApiUserController extends AbstractController
     }
 
     /**
+     * List users from current client.
+     *
+     * This call display all users belonging to client.
+     *
      * @Route("/api/user", name="api_user_index", methods={"GET"})
+     *
+     * @OA\Response(
+     *     response=200,
+     *     description="Returns users list",
+     *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=User::class, groups={"client:read"}))
+     *     )
+     * )
+     *
      * @param UserRepository $userRepository
      * @return JsonResponse
      */
@@ -38,7 +53,26 @@ class ApiUserController extends AbstractController
     }
 
     /**
+     * List user detail from current client.
+     *
+     * This call display user detail from client.
+     *
      * @Route("api/user/{id}", name="api_client_show", methods={"GET"})
+     *
+     * @OA\Parameter(
+     *     name="id",
+     *     in="path",
+     *     description="resource ID",
+     *     required=true,
+     *     @OA\Schema (type="integer")
+     *     ),
+     * @OA\Response(
+     *     response=200,
+     *     description="Returns the user detail",
+     *     @OA\JsonContent(type="object",@OA\Items(ref=@Model(type=User::class, groups={"client:read"}))
+     *     )
+     * )
+     *
      * @param User $user
      * @return JsonResponse
      *
@@ -46,7 +80,6 @@ class ApiUserController extends AbstractController
     public function show(User $user)
     {
         $current_client = $this->getUser();
-        //dd($current_user);
 
         if ($current_client === $user->getClient()) {
             return $this->json($user, 200, [], ['groups' => 'user:read']);
@@ -62,7 +95,19 @@ class ApiUserController extends AbstractController
     }
 
     /**
+     * Add new user from current client.
+     *
+     * This call add a user for connected client.
+     *
      * @Route("/api/user", name="api_user_post", methods={"POST"})
+     *
+     * @OA\Response(
+     *     response=201,
+     *     description="User added",
+     *     @OA\JsonContent(type="object",@OA\Items(ref=@Model(type=User::class, groups={"client:read"}))
+     *     )
+     * )
+     *
      * @ParamConverter("user", converter="user_post")
      * @param User $user
      * @param EntityManagerInterface $manager
@@ -96,7 +141,7 @@ class ApiUserController extends AbstractController
                 [
                     "Location" => $urlGenerator->generate("api_user_show", ["id" => $user->getId()]),
                 ],
-                ['groups' => 'user:read']
+                ['groups' => 'client:read']
             );
 
         } catch (NotEncodableValueException $e) {
@@ -112,6 +157,10 @@ class ApiUserController extends AbstractController
 
 
     /**
+     * Edit user from current client.
+     *
+     * This call edit a user for connected client.
+     *
      * @Route("api/user/{id}", name="api_user_put", methods={"PUT"})
      * @ParamConverter("user", converter="user_put")
      * @param User $user
@@ -139,16 +188,31 @@ class ApiUserController extends AbstractController
     }
 
     /**
+     * Delete user from current client.
+     *
+     * This call delete a user for connected client.
+     *
      * @Route("api/user/{id}", name="api_user_delete", methods={"DELETE"})
+     *
+     * @OA\Parameter(
+     *     name="id",
+     *     in="path",
+     *     description="resource ID",
+     *     required=true,
+     *     @OA\Schema (type="integer")
+     *     ),
+     * @OA\Response(
+     *     response=204,
+     *     description="User deleted"
+     *     )
+     * )
+     *
      * @param User $user
      * @param EntityManagerInterface $manager
      * @return JsonResponse
      */
-    public
-    function delete(
-        User $user,
-        EntityManagerInterface $manager
-    ) {
+    public function delete(User $user, EntityManagerInterface $manager)
+    {
 
         $current_client = $this->getUser();
         if ($current_client === $user->getClient()) {

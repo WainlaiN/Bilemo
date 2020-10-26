@@ -55,8 +55,7 @@ class ApiProductController extends AbstractController
      * @OA\Response(
      *     response=200,
      *     description="Returns the product detail",
-     *     @OA\JsonContent(
-     *         type="array",@OA\Items(ref=@Model(type=Product::class, groups={"product:read"}))
+     *     @OA\JsonContent(type="object",@OA\Items(ref=@Model(type=Product::class, groups={"product:read"}))
      *     )
      * )
      *

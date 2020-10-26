@@ -15,12 +15,12 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ApiClientController extends AbstractController
 {
-
-    /**
+/**
+    **
      * @Route("/api/client", name="api_client_index", methods={"GET"})
      * @param ClientRepository $clientRepository
      * @return JsonResponse
-     */
+     *
     public function index(ClientRepository $clientRepository)
     {
         $clients = $clientRepository->findAll();
@@ -28,15 +28,15 @@ class ApiClientController extends AbstractController
         return $this->json($clients, 200, [], ['groups' => 'client:read']);
     }
 
-    /**
+    **
      * @Route("api/client/{id}", name="api_user_show", methods={"GET"})
      * @param Client $client
      * @return JsonResponse
      *
-     */
+     *
     public function show(Client $client)
     {
         return $this->json($client, 200, [], ['groups' => 'client:read']);
     }
-
+**/
 }

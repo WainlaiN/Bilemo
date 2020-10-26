@@ -2,7 +2,7 @@ nelmio_api_doc:
     documentation:
         info:
             title: Bilemo
-            description: Manage your Users & Products using our API
+            description: Manage your users & products using our API
             version: 1.0.0
 
 
