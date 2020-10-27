@@ -13,6 +13,7 @@ class GetConverter implements ParamConverterInterface
 {
     /** @var ProductRepository */
     protected $productRepository;
+    private $serializer;
 
     public function __construct(ProductRepository $productRepository)
     {
@@ -26,9 +27,11 @@ class GetConverter implements ParamConverterInterface
         if (!$this->productRepository->find($id)) {
 
             throw new NotFoundHttpException("Product not found");
+
         }
 
         $request->attributes->set($configuration->getName(), $this->productRepository->find($id));
+
     }
 
     public function supports(ParamConverter $configuration)

@@ -27,7 +27,7 @@ class ApiProductController extends AbstractController
      *
      * This call display all products.
      *
-     * @Route("/api/product", name="api_product_index", methods={"GET"})
+     * Route("/api/product", name="api_product_index", methods={"GET"})
      *
      * @OA\Response(
      *     response=200,
