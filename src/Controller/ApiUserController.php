@@ -64,7 +64,7 @@ class ApiUserController extends AbstractController
      *
      * This call display user detail from client.
      *
-     * @Route("api/user/{id}", name="api_client_show", methods={"GET"})
+     * @Route("api/user/{id}", name="api_user_show", methods={"GET"})
      *
      * @OA\Parameter(
      *     name="id",
@@ -76,12 +76,12 @@ class ApiUserController extends AbstractController
      * @OA\Response(
      *     response=200,
      *     description="Returns the user detail",
-     *     @OA\JsonContent(type="object",@OA\Items(ref=@Model(type=User::class, groups={"client:read"}))
+     *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=User::class, groups={"client:read"}))
      *     )),
      * @OA\Response(
      *     response=404,
      *     description="Client Not found",
-     *     @OA\JsonContent(type="object",@OA\Items(ref=@Model(type=User::class, groups={"client:read"}))
+     *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=User::class, groups={"client:read"}))
      *     )
      * )
      *
@@ -116,7 +116,7 @@ class ApiUserController extends AbstractController
      * @OA\Response(
      *     response=201,
      *     description="User added",
-     *     @OA\JsonContent(type="object",@OA\Items(ref=@Model(type=User::class, groups={"client:read"}))
+     *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=User::class, groups={"client:read"}))
      *     )
      * )
      *
