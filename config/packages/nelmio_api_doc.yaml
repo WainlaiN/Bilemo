@@ -4,6 +4,11 @@ nelmio_api_doc:
             title: Bilemo
             description: Manage your users & products using our API
             version: 1.0.0
+        tags:
+          - name: "User"
+            description: "Users Request"
+          - name: "Product"
+            description: "Products Request"
         components:
             securitySchemes:
                 Bearer:

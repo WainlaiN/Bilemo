@@ -18,6 +18,7 @@ use Nelmio\ApiDocBundle\Annotation\Security as OASecurity;
  *
  * @package App\Controller
  * @OASecurity(name="Bearer")
+ * @OA\Tag(name="Product")
  */
 class ApiProductController extends AbstractController
 {
