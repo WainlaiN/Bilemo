@@ -120,6 +120,11 @@ class ApiUserController extends AbstractController
      *     response=201,
      *     description="User added",
      *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=User::class, groups={"client:read"}))
+     *     )),
+     * @OA\Response(
+     *     response=400,
+     *     description="Invalid JSON",
+     *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=User::class, groups={"client:read"}))
      *     )
      * )
      *
