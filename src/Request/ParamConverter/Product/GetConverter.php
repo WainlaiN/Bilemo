@@ -13,7 +13,6 @@ class GetConverter implements ParamConverterInterface
 {
     /** @var ProductRepository */
     protected $productRepository;
-    private $serializer;
 
     public function __construct(ProductRepository $productRepository)
     {

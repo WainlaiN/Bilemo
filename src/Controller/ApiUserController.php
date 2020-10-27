@@ -169,37 +169,6 @@ class ApiUserController extends AbstractController
 
 
     /**
-     * Edit user from current client.
-     *
-     * This call edit a user for connected client.
-     *
-     * @Route("api/user/{id}", name="api_user_put", methods={"PUT"})
-     * @ParamConverter("user", converter="user_put")
-     * @param User $user
-     * @param EntityManagerInterface $manager
-     * @param ValidatorInterface $validator
-     * @return JsonResponse
-     */
-    public
-    function put(
-        User $user,
-        EntityManagerInterface $manager,
-        ValidatorInterface $validator
-    ) {
-
-        $errors = $validator->validate($user);
-
-        if (count($errors) > 0) {
-            return $this->json($errors, 400);
-        }
-
-        $manager->persist($user);
-        $manager->flush();
-
-        return $this->json(null, 204, []);
-    }
-
-    /**
      * Delete user from current client.
      *
      * This call delete a user for connected client.
