@@ -21,7 +21,7 @@ class Product
      * @ORM\Column(type="integer")
      * @Groups("product:read")
      *
-     * @OA\Property (type="int", description="Product unique ID")
+     * @OA\Property (type="int", property="id", description="Product unique ID")
      */
     private $id;
 

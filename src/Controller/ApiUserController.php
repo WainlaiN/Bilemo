@@ -16,8 +16,14 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 use OpenApi\Annotations as OA;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Security as OASecurity;
 
-
+/**
+ * Class ApiUserController
+ *
+ * @package App\Controller
+ * @OASecurity(name="Bearer")
+ */
 class ApiUserController extends AbstractController
 {
     private $security;
@@ -48,7 +54,7 @@ class ApiUserController extends AbstractController
     {
         $users = $userRepository->findByClient($this->security->getUser());
 
-        return $this->json($users, 200, [], ['groups' => 'user:read']);
+        return $this->json($users, 200, [], ['groups' => 'client:read']);
 
     }
 
@@ -70,6 +76,11 @@ class ApiUserController extends AbstractController
      *     response=200,
      *     description="Returns the user detail",
      *     @OA\JsonContent(type="object",@OA\Items(ref=@Model(type=User::class, groups={"client:read"}))
+     *     )),
+     * @OA\Response(
+     *     response=404,
+     *     description="Client Not found",
+     *     @OA\JsonContent(type="object",@OA\Items(ref=@Model(type=User::class, groups={"client:read"}))
      *     )
      * )
      *
@@ -82,12 +93,12 @@ class ApiUserController extends AbstractController
         $current_client = $this->getUser();
 
         if ($current_client === $user->getClient()) {
-            return $this->json($user, 200, [], ['groups' => 'user:read']);
+            return $this->json($user, 200, [], ['groups' => 'client:read']);
         }
 
         return $this->json(
             [
-                'status' => 400,
+                'status' => 404,
                 'message' => "Client introuvable",
             ],
             400

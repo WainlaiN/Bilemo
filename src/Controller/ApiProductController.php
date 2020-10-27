@@ -4,14 +4,21 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Repository\ProductRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 use OpenApi\Annotations as OA;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Security as OASecurity;
 
-
+/**
+ * Class ApiProductController
+ *
+ * @package App\Controller
+ * @OASecurity(name="Bearer")
+ */
 class ApiProductController extends AbstractController
 {
     /**
@@ -56,14 +63,15 @@ class ApiProductController extends AbstractController
      *     response=200,
      *     description="Returns the product detail",
      *     @OA\JsonContent(type="object",@OA\Items(ref=@Model(type=Product::class, groups={"product:read"}))
-     *     ),
+     *     )),
      * @OA\Response(
      *     response=404,
      *     description="Product Not found",
      *     @OA\JsonContent(type="object",@OA\Items(ref=@Model(type=Product::class, groups={"product:read"}))
      *     ))
-     * )
      *
+     *
+     * @ParamConverter("product", converter="product_get")
      * @param Product $product
      * @return JsonResponse
      */

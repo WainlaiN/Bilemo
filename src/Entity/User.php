@@ -24,7 +24,7 @@ class User
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      *
-     * @OA\Property (type="int", description="User unique ID")
+     * @OA\Property (type="int", property="id" ,description="User unique ID")
      */
     private $id;
 
