@@ -38,6 +38,14 @@ services:
         tags:
             - { name: 'request.param_converter', converter: 'user_put' }
 
+    App\Request\ParamConverter\Product\GetConverter:
+        tags:
+            - { name: 'request.param_converter', converter: 'product_get' }
+
+    App\EventListener\ExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
+
 
 
 

@@ -6,8 +6,12 @@ use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
+use OpenApi\Annotations as OA;
+
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
+ *
+ * @OA\Schema
  */
 class Product
 {
@@ -15,24 +19,33 @@ class Product
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("product:read")
+     *
+     * @OA\Property (type="integer", property="id", description="Product unique ID")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("product:read")
+     *
+     * @OA\Property (type="string", description="Product model")
      */
     private $model;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("product:read")
+     *
+     * @OA\Property (type="string", description="Product price")
      */
     private $price;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("product:read")
+     *
+     * @OA\Property (type="string", description="Product brand")
      */
     private $brand;
 
