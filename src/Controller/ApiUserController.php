@@ -27,6 +27,9 @@ use Nelmio\ApiDocBundle\Annotation\Security as OASecurity;
  */
 class ApiUserController extends AbstractController
 {
+    /**
+     * @var Security
+     */
     private $security;
 
     public function __construct(Security $security)
