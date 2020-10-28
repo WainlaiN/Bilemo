@@ -5,9 +5,12 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Pagerfanta\Doctrine\ORM\QueryAdapter;
+use Pagerfanta\Pagerfanta;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Security;
@@ -54,11 +57,38 @@ class ApiUserController extends AbstractController
      * @param UserRepository $userRepository
      * @return JsonResponse
      */
-    public function index(UserRepository $userRepository)
+    public function index(UserRepository $userRepository, Request $request)
     {
+
+        $page = $request->query->get('page', 1);
+
+
         $users = $userRepository->findByClient($this->security->getUser());
 
-        return $this->json($users, 200, [], ['groups' => 'client:read']);
+        $adapter = new QueryAdapter($users);
+
+        $pagerfanta = new Pagerfanta($adapter);
+
+        $pagerfanta->setMaxPerPage(5);
+
+        $pagerfanta->setCurrentPage($page);
+
+        dd($adapter);
+
+        $users = [];
+        foreach ($pagerfanta->getCurrentPageResults() as $result) {
+            $users[] = $result;
+        }
+
+        $response = new JsonResponse([
+            'total' => $pagerfanta->getNbResults(),
+            'count' => count($users),
+            'programmers' => $users,
+        ], 200);
+
+
+
+        //return $this->json($users, 200, [], ['groups' => 'client:read']);
 
     }
 
