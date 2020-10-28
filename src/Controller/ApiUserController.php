@@ -63,9 +63,9 @@ class ApiUserController extends AbstractController
         $page = $request->query->get('page', 1);
 
 
-        $users = $userRepository->findByClient($this->security->getUser());
+        $qb = $userRepository->findByClient($this->security->getUser());
 
-        $adapter = new QueryAdapter($users);
+        $adapter = new QueryAdapter($qb);
 
         $pagerfanta = new Pagerfanta($adapter);
 
@@ -73,10 +73,10 @@ class ApiUserController extends AbstractController
 
         $pagerfanta->setCurrentPage($page);
 
-        dd($adapter);
-
         $users = [];
+
         foreach ($pagerfanta->getCurrentPageResults() as $result) {
+
             $users[] = $result;
         }
 
