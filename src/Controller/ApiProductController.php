@@ -43,7 +43,7 @@ class ApiProductController extends AbstractController
     {
         $products = $productRepository->findAll();
 
-        return $this->json($products, 200, [], ['groups' => 'product:read']);
+        return $this->json($products, 200, [], ['groups' => 'product:read'])->setPublic()->setMaxAge(3600);
     }
 
     /**
