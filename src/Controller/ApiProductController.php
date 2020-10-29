@@ -7,6 +7,7 @@ use App\Repository\ProductRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 use OpenApi\Annotations as OA;
@@ -39,11 +40,23 @@ class ApiProductController extends AbstractController
      * @param ProductRepository $productRepository
      * @return JsonResponse
      */
-    public function index(ProductRepository $productRepository)
+    public function index(ProductRepository $productRepository, Request $request)
     {
         $products = $productRepository->findAll();
 
-        return $this->json($products, 200, [], ['groups' => 'product:read'])->setPublic()->setMaxAge(3600);
+        $response = $this->json($products, 200, [], ['groups' => 'product:read']);
+
+        //add ETag to response to identify resource
+        $response->setEtag(md5($response->getContent()));
+
+        //add cache to response
+        $response->setPublic()
+            ->setMaxAge(3600);
+
+        //check if response is different from cache
+        $response->isNotModified($request);
+
+        return $response;
     }
 
     /**
