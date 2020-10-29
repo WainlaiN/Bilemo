@@ -29,7 +29,7 @@ if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? false) {
 
 $kernel = new Kernel($_SERVER['APP_ENV'], (bool)$_SERVER['APP_DEBUG']);
 // Wrap the default Kernel with the CacheKernel one in 'prod' environment
-if ('prod' === $kernel->getEnvironment()) {
+if ('dev' === $kernel->getEnvironment()) {
     $kernel = new CacheKernel($kernel);
 }
 $request = Request::createFromGlobals();

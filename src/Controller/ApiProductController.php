@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Repository\ProductRepository;
+use App\Service\CacheContent;
+use ContainerVkLJQnR\getLexikJwtAuthentication_CheckConfigCommandService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -40,29 +42,13 @@ class ApiProductController extends AbstractController
      * @param ProductRepository $productRepository
      * @return JsonResponse
      */
-    public function index(ProductRepository $productRepository, Request $request)
+    public function index(ProductRepository $productRepository, Request $request, CacheContent $cacheContent)
     {
         $products = $productRepository->findAll();
 
         $response = $this->json($products, 200, [], ['groups' => 'product:read']);
 
-        //add ETag to response to identify resource
-        $response->setEtag(md5($response->getContent()));
-
-        //add cache to response
-        $response->setPublic()
-            ->setMaxAge(3600);
-
-        //check if response is different from cache
-        if ($response->isNotModified($request)) {
-
-            return $response;
-        }
-
-        //need to revalidate if age is outdated
-        $response->headers->addCacheControlDirective('must-revalidate', true);
-
-        return $response;
+        return $cacheContent->CheckCache($request, $response);
 
     }
 
