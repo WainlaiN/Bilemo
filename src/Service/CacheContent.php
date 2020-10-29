@@ -14,12 +14,14 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  */
 class CacheContent
 {
+
+
     /**
      * @param $request
      * @param JsonResponse $response
      * @return JsonResponse
      */
-    public function CheckCache($request,JsonResponse $response)
+    public function CheckCache($request, JsonResponse $response)
     {
         //add ETag to response to identify resource
         $response->setEtag(md5($response->getContent()));
