@@ -46,6 +46,10 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
 
+    # add service to manage cache
+    App\Service\CacheContent:
+
+
 
 
 

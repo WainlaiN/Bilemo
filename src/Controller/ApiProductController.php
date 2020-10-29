@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Repository\ProductRepository;
+use App\Service\CacheContent;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 use OpenApi\Annotations as OA;
@@ -39,11 +41,14 @@ class ApiProductController extends AbstractController
      * @param ProductRepository $productRepository
      * @return JsonResponse
      */
-    public function index(ProductRepository $productRepository)
+    public function index(ProductRepository $productRepository, Request $request, CacheContent $cacheContent)
     {
         $products = $productRepository->findAll();
 
-        return $this->json($products, 200, [], ['groups' => 'product:read']);
+        $response = $this->json($products, 200, [], ['groups' => 'product:read']);
+
+        return $cacheContent->CheckCache($request, $response);
+
     }
 
     /**
