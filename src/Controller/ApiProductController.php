@@ -54,10 +54,21 @@ class ApiProductController extends AbstractController
             ->setMaxAge(3600);
 
         //check if response is different from cache
-        $response->isNotModified($request);
+        if ($response->isNotModified($request)) {
+
+            return $response;
+        }
+
+        //need to revalidate if age is outdated
+        $response->headers->addCacheControlDirective('must-revalidate', true);
 
         return $response;
+
     }
+
+
+
+
 
     /**
      * Product detail.
