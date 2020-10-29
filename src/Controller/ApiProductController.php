@@ -52,10 +52,6 @@ class ApiProductController extends AbstractController
 
     }
 
-
-
-
-
     /**
      * Product detail.
      *
