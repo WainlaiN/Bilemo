@@ -4,72 +4,62 @@
 namespace App\Service;
 
 
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\Security\Core\Security;
 
 class UserValidator
 {
-    private $jsonResponse;
+    /**
+     * @var Security
+     */
+    private $security;
 
     private $manager;
 
     private $validator;
 
+    private $urlGenerator;
+
     public function __construct(
-        JsonResponse $response,
         EntityManagerInterface $manager,
-        ValidatorInterface $validator
+        ValidatorInterface $validator,
+        Security $security,
+        UrlGeneratorInterface $urlGenerator
     ) {
-        $this->jsonResponse = $response;
         $this->manager = $manager;
         $this->validator = $validator;
+        $this->security = $security;
+        $this->urlGenerator = $urlGenerator;
+
     }
 
     public function validateUser($user)
     {
-        $response = new JsonResponse();
 
-        try {
-            $errors = $this->validator->validate($user);
+        return $this->validator->validate($user);
 
-            if (count($errors) > 0) {
-                //return $json($errors, 400);
-                $response->setData(array(
-                    'error' =>true,
-                    'status' => '400'
-                ));
-
-                return $response;
-
-            }
-
-            $current_client = $this->getUser();
-            $user->setClient($current_client);
-            $this->manager->persist($user);
-            $this->manager->flush();
-
-            return $this->json(
-                $user,
-                201,
-                [
-                    "Location" => $urlGenerator->generate("api_user_show", ["id" => $user->getId()]),
-                ],
-                ['groups' => 'client:read']
-            );
-
-        } catch
-        (NotEncodableValueException $e) {
-            return $this->json(
-                [
-                    'status' => 400,
-                    'message' => $e->getMessage(),
-                ],
-                400
-            );
+        /**if (count($errors) > 0) {
+            return $errors;
         }
+
+        $this->persistUser($user);**/
+
+
 
     }
 
+    private function persistUser(User $user)
+    {
+        $current_client = $this->security->getUser();
+        $user->setClient($current_client);
+        $this->manager->persist($user);
+        $this->manager->flush();
+
+        return $user;
+
+    }
 }

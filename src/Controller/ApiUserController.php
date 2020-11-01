@@ -156,38 +156,25 @@ class ApiUserController extends AbstractController
         UserValidator $userValidator
     ) {
 
-        return $userValidator->validateUser($user);
-
-        try {
-            $errors = $validator->validate($user);
-
-            if (count($errors) > 0) {
-                return $this->json($errors, 400);
-            }
-
-            $current_client = $this->getUser();
-            $user->setClient($current_client);
-            $manager->persist($user);
-            $manager->flush();
-
-            return $this->json(
-                $user,
-                201,
-                [
-                    "Location" => $urlGenerator->generate("api_user_show", ["id" => $user->getId()]),
-                ],
-                ['groups' => 'client:read']
-            );
-
-        } catch (NotEncodableValueException $e) {
-            return $this->json(
-                [
-                    'status' => 400,
-                    'message' => $e->getMessage(),
-                ],
-                400
-            );
+        if (count($validator->validate($user)) > 0) {
+            return $this->json($validator->validate($user), 400);
         }
+
+        $current_client = $this->getUser();
+        $user->setClient($current_client);
+        $manager->persist($user);
+        $manager->flush();
+
+        $url = $urlGenerator->generate("api_user_show", ["id" => $user->getId()]);
+
+        return $this->json(
+            $user,
+            201,
+            ["Location" => $url],
+            ['groups' => 'client:read']
+        );
+
+
     }
 
 
