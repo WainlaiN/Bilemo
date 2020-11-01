@@ -25,9 +25,20 @@ class UserRepository extends ServiceEntityRepository
             ->andWhere('u.client = :val')
             ->setParameter('val', $client)
             ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
             ->getQuery()
             ->getResult();
     }
+
+    //query for users pagination
+    public function findPageByClient($client)
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.client = :val')
+            ->setParameter('val', $client)
+            ->orderBy('u.id', 'ASC')
+            ->getQuery();
+    }
+
+
 }
 
