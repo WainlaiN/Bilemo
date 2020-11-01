@@ -13,7 +13,7 @@ class ExceptionListener
     {
         $exception = $event->getThrowable();
 
-        $customResponse = new JsonResponse(['status'=> false, 'message' => $exception->getMessage()],403);
+        $customResponse = new JsonResponse(['status'=> false, 'message' => $exception->getMessage()],404);
 
         $event->setResponse($customResponse);
     }
