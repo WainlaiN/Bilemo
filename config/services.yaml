@@ -30,29 +30,31 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-
+    # user POST custom paramConverter
     App\Request\ParamConverter\User\PostConverter:
         tags:
             - { name : 'request.param_converter', converter: 'user_post' }
 
-    App\Request\ParamConverter\User\PutConverter:
-        tags:
-            - { name: 'request.param_converter', converter: 'user_put' }
-
+    # user GET custom paramConverter
     App\Request\ParamConverter\User\GetConverter:
         tags:
             - { name: 'request.param_converter', converter: 'user_get' }
 
+    # product GET custom paramConverter
     App\Request\ParamConverter\Product\GetConverter:
         tags:
             - { name: 'request.param_converter', converter: 'product_get' }
 
+    # EventListener for HTTPException
     App\EventListener\ExceptionListener:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
 
     # add service to manage cache
     App\Service\CacheContent:
+
+    # add service to validate user
+    App\Service\UserValidator:
 
     # add service to paginate query
     PaginatorService:

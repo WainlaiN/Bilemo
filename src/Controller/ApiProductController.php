@@ -25,60 +25,47 @@ use Nelmio\ApiDocBundle\Annotation\Security as OASecurity;
  */
 class ApiProductController extends AbstractController
 {
-    /**
-     * List all products.
-     *
-     * This call display all products.
-     *
-     * @Route("/api/product", name="api_product_index", methods={"GET"})
-     *
-     * @OA\Response(
-     *     response=200,
-     *     description="Returns the products list",
-     *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=Product::class, groups={"client:read"}))
-     *     )
-     * )
-     *
-     * @param ProductRepository $productRepository
-     * @return JsonResponse
-     */
-    public function index(ProductRepository $productRepository, Request $request, CacheContent $cacheContent)
-    {
-        $products = $productRepository->findAll();
-
-        $response = $this->json($products, 200, [], ['groups' => 'client:read']);
-
-        return $cacheContent->CheckCache($request, $response);
-
-    }
 
     /**
      * Paginate products list.
      *
-     * This call display all products into pages.
-     *
+     * This call display all products with paginations.
      *
      * @Route("/api/products/{page}", name="product_list", methods={"GET"}, requirements={"page"="\d+"})
      *
+     * @OA\Parameter(
+     *     name="page",
+     *     in="path",
+     *     description="resource page",
+     *     required=true,
+     *     @OA\Schema (type="integer")
+     *     ),
      * @OA\Response(
      *     response=200,
      *     description="Returns products list",
      *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=Product::class, groups={"client:read"}))
-     *     )
+     *     )),
+     * @OA\Response(
+     *     response=404,
+     *     description="Page Not found",
+     *     @OA\JsonContent(description="Returned when the page is not found.")
      * )
+     *
      */
-    public function getProductsByPage($page, ProductRepository $productRepository, PaginatorService $paginator)
-    {
+    public function getProductsByPage(
+        $page,
+        ProductRepository $productRepository,
+        PaginatorService $paginator,
+        Request $request,
+        CacheContent $cacheContent
+    ) {
         $query = $productRepository->findPageByProduct();
 
         $data = $paginator->paginate($query, '10', $page);
 
-        return $this->json(
-            $data,
-            200,
-            [],
-            ['groups' => 'client:read']
-        );
+        $response = $this->json($data, 200, [], ['groups' => 'client:read']);
+
+        return $cacheContent->addToCache($request, $response);
     }
 
     /**
@@ -103,7 +90,7 @@ class ApiProductController extends AbstractController
      * @OA\Response(
      *     response=404,
      *     description="Product Not found",
-     *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=Product::class, groups={"client:read"}))
+     *     @OA\JsonContent(description="Returned when the product is not found.")
      *     ))
      *
      *

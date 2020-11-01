@@ -4,11 +4,14 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Service\CacheContent;
 use App\Service\PaginatorService;
+use App\Service\UserValidator;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Security;
@@ -39,57 +42,46 @@ class ApiUserController extends AbstractController
     }
 
     /**
-     * List users from current client.
-     *
-     * This call display all users belonging to client.
-     *
-     * @Route("/api/user", name="api_user_index", methods={"GET"})
-     *
-     * @OA\Response(
-     *     response=200,
-     *     description="Returns users list",
-     *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=User::class, groups={"client:read"}))
-     *     )
-     * )
-     *
-     * @param UserRepository $userRepository
-     * @return JsonResponse
-     */
-    public function index(UserRepository $userRepository)
-    {
-        $users = $userRepository->findByClient($this->security->getUser());
-
-        return $this->json($users, 200, [], ['groups' => 'client:read']);
-
-    }
-
-    /**
      * Paginate users list from current client.
      *
-     * This call display all users belonging to client into pages.
+     * This call display all users belonging to client with pagination.
      *
      *
      * @Route("/api/users/{page}", name="user_list", methods={"GET"}, requirements={"page"="\d+"})
      *
+     * @OA\Parameter(
+     *     name="page",
+     *     in="path",
+     *     description="resource page",
+     *     required=true,
+     *     @OA\Schema (type="integer")
+     *     ),
      * @OA\Response(
      *     response=200,
      *     description="Returns users list",
      *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=User::class, groups={"client:read"}))
-     *     )
+     *     )),
+     * @OA\Response(
+     *     response=404,
+     *     description="Page Not found",
+     *     @OA\JsonContent(description="Returned when the page is not found.")
      * )
+     *
      */
-    public function getUsersByPage($page, UserRepository $userRepository, PaginatorService $paginator)
-    {
+    public function getUsersByPage(
+        $page,
+        UserRepository $userRepository,
+        PaginatorService $paginator,
+        Request $request,
+        CacheContent $cacheContent
+    ) {
         $query = $userRepository->findPageByClient($this->security->getUser());
 
         $data = $paginator->paginate($query, '5', $page);
 
-        return $this->json(
-            $data,
-            200,
-            [],
-            ['groups' => 'client:read']
-        );
+        $response = $this->json($data, 200, [], ['groups' => 'client:read']);
+
+        return $cacheContent->addToCache($request, $response);
     }
 
 
@@ -114,9 +106,8 @@ class ApiUserController extends AbstractController
      *     )),
      * @OA\Response(
      *     response=404,
-     *     description="Client Not found",
-     *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=User::class, groups={"client:read"}))
-     *     )
+     *     description="User Not found",
+     *     @OA\JsonContent(description="Returned when the user is not found.")
      * )
      *
      * @ParamConverter("user", converter="user_get")
@@ -145,7 +136,7 @@ class ApiUserController extends AbstractController
      * @OA\Response(
      *     response=400,
      *     description="Invalid JSON",
-     *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=User::class, groups={"client:read"}))
+     *     @OA\JsonContent(description="Returned when the user is not validated.")
      *     )
      * )
      *
@@ -161,8 +152,11 @@ class ApiUserController extends AbstractController
         User $user,
         EntityManagerInterface $manager,
         ValidatorInterface $validator,
-        UrlGeneratorInterface $urlGenerator
+        UrlGeneratorInterface $urlGenerator,
+        UserValidator $userValidator
     ) {
+
+        return $userValidator->validateUser($user);
 
         try {
             $errors = $validator->validate($user);
@@ -214,7 +208,11 @@ class ApiUserController extends AbstractController
      * @OA\Response(
      *     response=204,
      *     description="User deleted"
-     *     )
+     *     )),
+     * @OA\Response(
+     *     response=404,
+     *     description="User Not found",
+     *     @OA\JsonContent(description="Returned when the user is not found.")
      * )
      *
      * @param User $user
@@ -235,10 +233,9 @@ class ApiUserController extends AbstractController
 
         return $this->json(
             [
-                'status' => 400,
+                'status' => 404,
                 'message' => "Client introuvable",
             ],
-            400
         );
 
 
