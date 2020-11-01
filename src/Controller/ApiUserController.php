@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Service\PaginatorService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -61,6 +62,36 @@ class ApiUserController extends AbstractController
         return $this->json($users, 200, [], ['groups' => 'client:read']);
 
     }
+
+    /**
+     * Paginate users list from current client.
+     *
+     * This call display all users belonging to client into pages.
+     *
+     *
+     * @Route("/api/users/{page}", name="user_list", methods={"GET"}, requirements={"page"="\d+"})
+     *
+     * @OA\Response(
+     *     response=200,
+     *     description="Returns users list",
+     *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=User::class, groups={"client:read"}))
+     *     )
+     * )
+     */
+    public function getUsersByPage($page, UserRepository $userRepository, PaginatorService $paginator)
+    {
+        $query = $userRepository->findPageByClient($this->security->getUser());
+
+        $data = $paginator->paginate($query, '5', $page);
+
+        return $this->json(
+            $data,
+            200,
+            [],
+            ['groups' => 'client:read']
+        );
+    }
+
 
     /**
      * List user detail from current client.
