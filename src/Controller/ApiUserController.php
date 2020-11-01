@@ -88,25 +88,15 @@ class ApiUserController extends AbstractController
      *     )
      * )
      *
+     * @ParamConverter("user", converter="user_get")
      * @param User $user
      * @return JsonResponse
      *
      */
     public function show(User $user)
     {
-        $current_client = $this->getUser();
+        return $this->json($user, 200, [], ['groups' => 'client:read']);
 
-        if ($current_client === $user->getClient()) {
-            return $this->json($user, 200, [], ['groups' => 'client:read']);
-        }
-
-        return $this->json(
-            [
-                'status' => 404,
-                'message' => "Client introuvable",
-            ],
-            400
-        );
     }
 
     /**

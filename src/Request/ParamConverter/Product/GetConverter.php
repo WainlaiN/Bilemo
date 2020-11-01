@@ -23,6 +23,7 @@ class GetConverter implements ParamConverterInterface
     {
         $id = $request->get('id');
 
+
         if (!$this->productRepository->find($id)) {
 
             throw new NotFoundHttpException("Product not found");

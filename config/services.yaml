@@ -38,6 +38,10 @@ services:
         tags:
             - { name: 'request.param_converter', converter: 'user_put' }
 
+    App\Request\ParamConverter\User\GetConverter:
+        tags:
+            - { name: 'request.param_converter', converter: 'user_get' }
+
     App\Request\ParamConverter\Product\GetConverter:
         tags:
             - { name: 'request.param_converter', converter: 'product_get' }
