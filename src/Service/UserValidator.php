@@ -7,38 +7,48 @@ namespace App\Service;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
-use Symfony\Component\Validator\Constraints\Json;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class UserValidator
 {
     private $jsonResponse;
 
-    public function __construct(Json $response)
-    {
-        $this->jsonResponse = $response;
-    }
+    private $manager;
 
-    public function validateUser(
-        $user,
+    private $validator;
+
+    public function __construct(
+        JsonResponse $response,
         EntityManagerInterface $manager,
         ValidatorInterface $validator
     ) {
+        $this->jsonResponse = $response;
+        $this->manager = $manager;
+        $this->validator = $validator;
+    }
 
+    public function validateUser($user)
+    {
+        $response = new JsonResponse();
 
         try {
-            $errors = $validator->validate($user);
+            $errors = $this->validator->validate($user);
 
             if (count($errors) > 0) {
                 //return $json($errors, 400);
-                return $this->jsonResponse($errors, 400);
+                $response->setData(array(
+                    'error' =>true,
+                    'status' => '400'
+                ));
+
+                return $response;
 
             }
 
             $current_client = $this->getUser();
             $user->setClient($current_client);
-            $manager->persist($user);
-            $manager->flush();
+            $this->manager->persist($user);
+            $this->manager->flush();
 
             return $this->json(
                 $user,
