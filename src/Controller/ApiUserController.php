@@ -64,36 +64,28 @@ class ApiUserController extends AbstractController
     }
 
     /**
-     * @Route("/api/users/{page}", name="user_list", requirements={"page"="\d+"})
+     * Paginate users list from current client.
+     *
+     * This call display all users belonging to client into pages.
+     *
+     *
+     * @Route("/api/users/{page}", name="user_list", methods={"GET"}, requirements={"page"="\d+"})
+     *
+     * @OA\Response(
+     *     response=200,
+     *     description="Returns users list",
+     *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=User::class, groups={"client:read"}))
+     *     )
+     * )
      */
-    public function getUsersByPage($page = 1, UserRepository $userRepository, PaginatorService $paginator)
+    public function getUsersByPage($page, UserRepository $userRepository, PaginatorService $paginator)
     {
         $query = $userRepository->findPageByClient($this->security->getUser());
 
-
-        $data = $paginator->paginate($query, '5');
-
-
-        /**
-         $pageSize = '5';
-
-        $paginator = new Paginator($query);
-
-        $totalItems = count($paginator);
-
-        $pagesCount = ceil($totalItems / $pageSize);
-
-        // now get one page's items:
-        $paginator
-            ->getQuery()
-            ->setFirstResult($pageSize * ($page - 1)) // set the offset
-            ->setMaxResults($pageSize); // set the limit
-         **/
-
+        $data = $paginator->paginate($query, '5', $page);
 
         return $this->json(
-            $paginator
-                ->getQuery()->getResult(),
+            $data,
             200,
             [],
             ['groups' => 'client:read']

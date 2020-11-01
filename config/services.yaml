@@ -55,7 +55,8 @@ services:
     App\Service\CacheContent:
 
     # add service to paginate query
-    App\Service\PaginatorService:
+    PaginatorService:
+        class: App\Service\PaginatorService
         arguments: [ '@doctrine.services.paginator' ]
 
     doctrine.services.paginator:
