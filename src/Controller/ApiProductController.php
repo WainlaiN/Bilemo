@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Product;
 use App\Repository\ProductRepository;
 use App\Service\CacheContent;
+use App\Service\PaginatorService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,7 +35,7 @@ class ApiProductController extends AbstractController
      * @OA\Response(
      *     response=200,
      *     description="Returns the products list",
-     *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=Product::class, groups={"product:read"}))
+     *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=Product::class, groups={"client:read"}))
      *     )
      * )
      *
@@ -45,10 +46,39 @@ class ApiProductController extends AbstractController
     {
         $products = $productRepository->findAll();
 
-        $response = $this->json($products, 200, [], ['groups' => 'product:read']);
+        $response = $this->json($products, 200, [], ['groups' => 'client:read']);
 
         return $cacheContent->CheckCache($request, $response);
 
+    }
+
+    /**
+     * Paginate products list.
+     *
+     * This call display all products into pages.
+     *
+     *
+     * @Route("/api/products/{page}", name="product_list", methods={"GET"}, requirements={"page"="\d+"})
+     *
+     * @OA\Response(
+     *     response=200,
+     *     description="Returns products list",
+     *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=Product::class, groups={"client:read"}))
+     *     )
+     * )
+     */
+    public function getProductsByPage($page, ProductRepository $productRepository, PaginatorService $paginator)
+    {
+        $query = $productRepository->findPageByProduct();
+
+        $data = $paginator->paginate($query, '10', $page);
+
+        return $this->json(
+            $data,
+            200,
+            [],
+            ['groups' => 'client:read']
+        );
     }
 
     /**
@@ -68,12 +98,12 @@ class ApiProductController extends AbstractController
      * @OA\Response(
      *     response=200,
      *     description="Returns the product detail",
-     *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=Product::class, groups={"product:read"}))
+     *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=Product::class, groups={"client:read"}))
      *     )),
      * @OA\Response(
      *     response=404,
      *     description="Product Not found",
-     *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=Product::class, groups={"product:read"}))
+     *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=Product::class, groups={"client:read"}))
      *     ))
      *
      *
@@ -83,6 +113,6 @@ class ApiProductController extends AbstractController
      */
     public function show(Product $product)
     {
-        return $this->json($product, 200, [], ['groups' => 'product:read']);
+        return $this->json($product, 200, [], ['groups' => 'client:read']);
     }
 }

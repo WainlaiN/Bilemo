@@ -39,7 +39,7 @@ class PaginatorService
 
         }
 
-        throw new NotFoundHttpException($this->lastPage($paginator) ." pages disponibles");
+        throw new NotFoundHttpException("Only " . $this->lastPage($paginator) ." pages available");
     }
 
     public function total(Paginator $paginator)

@@ -19,7 +19,7 @@ class Product
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("product:read")
+     * @Groups("client:read")
      *
      * @OA\Property (type="integer", property="id", description="Product unique ID")
      */
@@ -27,7 +27,7 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("product:read")
+     * @Groups("client:read")
      *
      * @OA\Property (type="string", description="Product model")
      */
@@ -35,7 +35,7 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("product:read")
+     * @Groups("client:read")
      *
      * @OA\Property (type="string", description="Product price")
      */
@@ -43,7 +43,7 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("product:read")
+     * @Groups("client:read")
      *
      * @OA\Property (type="string", description="Product brand")
      */
