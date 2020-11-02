@@ -12,8 +12,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 use OpenApi\Annotations as OA;
 use Nelmio\ApiDocBundle\Annotation\Model;
-use Symfony\Component\Validator\Validation;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
@@ -25,6 +23,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class ApiClientController extends AbstractController
 {
+
     /**
      * Add new Client.
      *
@@ -32,6 +31,7 @@ class ApiClientController extends AbstractController
      *
      *
      * @Route("/api/client", name="api_client_registration", methods={"POST"})
+     *
      *
      * @OA\Response(
      *     response=201,
@@ -50,28 +50,33 @@ class ApiClientController extends AbstractController
      *     ))
      *
      * @param Request $request
+     * @param UserPasswordEncoderInterface $encoder
+     * @param EntityManagerInterface $manager
+     * @param ValidatorInterface $validator
      * @return JsonResponse
      */
-    public function register (Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $manager, ValidatorInterface $validator)
-    {
+    public function register(
+        Request $request,
+        UserPasswordEncoderInterface $encoder,
+        EntityManagerInterface $manager,
+        ValidatorInterface $validator
+    ) {
         $data = json_decode($request->getContent(), true);
-
-        $email = $data['email'];
-        $name = $data['name'];
-        $password = $data['password'];
 
         $client = new Client();
 
-        $client->setEmail($email);
-        $client->setName($name);
-        $client->setPassword($encoder->encodePassword($client, $password));
+        $client->setEmail($data['email']);
+        $client->setName($data['name']);
+        $client->setPassword($data['password']);
         $client->setRoles();
-
 
         $violations = $validator->validate($client, null, "register");
 
+        $client->setPassword($encoder->encodePassword($client, $data['password']));
+
         if ($violations->count() > 0) {
-            return new JsonResponse(["error" => (string)$violations], 400);
+            return $this->json($violations, 400);
+
         }
 
         try {
@@ -80,7 +85,8 @@ class ApiClientController extends AbstractController
         } catch (\Exception $e) {
             return new JsonResponse(["error" => $e->getMessage()], 500);
         }
-        return new JsonResponse(["success" => $client->getUsername(). " has been registered!"], 201);
+
+        return new JsonResponse(["success" => $client->getUsername()." has been registered!"], 201);
     }
 }
 

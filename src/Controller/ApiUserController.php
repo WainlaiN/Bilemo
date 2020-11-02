@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 use OpenApi\Annotations as OA;
@@ -172,10 +171,7 @@ class ApiUserController extends AbstractController
             ["Location" => $url],
             ['groups' => 'client:read']
         );
-
-
     }
-
 
     /**
      * Delete user from current client.
@@ -223,7 +219,5 @@ class ApiUserController extends AbstractController
                 'message' => "Client introuvable",
             ],
         );
-
-
     }
 }

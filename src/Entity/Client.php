@@ -33,7 +33,7 @@ class Client implements UserInterface
     /**
      * @ORM\Column(type="string")
      * @Groups("client:read")
-     * @Assert\Email(groups={"register"})
+     * @Assert\Email(message="email non valide", groups={"register"})
      *
      * @OA\Property (type="string", description="email")
      */
@@ -42,7 +42,7 @@ class Client implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("client:read")
-     * @Assert\NotBlank(groups={"register"})
+     * @Assert\NotBlank(message="le Nom ne doit pas être vide", groups={"register"})
      *
      * @OA\Property (type="string", description="client name")
      */
@@ -56,7 +56,7 @@ class Client implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min="8", groups={"register"})
+     * @Assert\Length(min="8", minMessage="8 caractères minumum", groups={"register"})
      */
     private $password;
 
