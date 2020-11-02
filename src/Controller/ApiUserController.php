@@ -25,6 +25,7 @@ use Nelmio\ApiDocBundle\Annotation\Security as OASecurity;
  * Class ApiUserController
  *
  * @package App\Controller
+ *
  * @OASecurity(name="Bearer")
  * @OA\Tag(name="User")
  */

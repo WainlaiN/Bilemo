@@ -3,32 +3,28 @@
 namespace App\Controller;
 
 use App\Entity\Client;
-use App\Repository\ClientRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 use OpenApi\Annotations as OA;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Class ApiClientController
  *
  * @package App\Controller
- * @OA\Tag(name="Client")
  *
- * @package App\Controller
+ * @OA\Tag(name="Client")
  */
 class ApiClientController extends AbstractController
 {
-
-
     /**
      * Add new Client.
      *
@@ -45,32 +41,20 @@ class ApiClientController extends AbstractController
      * @OA\Response(
      *     response=400,
      *     description="Invalid JSON",
-     *     @OA\JsonContent(description="Returned when the client is not validated.")
-     *     )
-     * )
+     *     @OA\JsonContent(description="Returned when error in JSON.")
+     *     )),
+     * @OA\Response(
+     *     response=500,
+     *     description="Request Problem",
+     *     @OA\JsonContent(description="Returned when error while persisting the client.")
+     *     ))
      *
      * @param Request $request
      * @return JsonResponse
      */
-    public function register (Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $manager)
+    public function register (Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $manager, ValidatorInterface $validator)
     {
         $data = json_decode($request->getContent(), true);
-
-        $validator = Validation::createValidator();
-
-        $constraint = new Assert\Collection(array(
-            // the keys correspond to the keys in the input array
-            'email' => new Assert\Email(),
-            'name' => new Assert\Length(array('min' => 2)),
-            'password' => new Assert\Length(array('min' => 8)),
-
-        ));
-        $violations = $validator->validate($data, $constraint);
-
-
-        if ($violations->count() > 0) {
-            return new JsonResponse(["error" => (string)$violations], 400);
-        }
 
         $email = $data['email'];
         $name = $data['name'];
@@ -82,6 +66,12 @@ class ApiClientController extends AbstractController
         $client->setName($name);
         $client->setPassword($encoder->encodePassword($client, $password));
         $client->setRoles();
+
+        $violations = $validator->validate($client, null, "register");
+
+        if ($violations->count() > 0) {
+            return new JsonResponse(["error" => (string)$violations], 400);
+        }
 
         try {
             $manager->persist($client);

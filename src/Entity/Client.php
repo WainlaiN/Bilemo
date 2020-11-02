@@ -15,7 +15,7 @@ use OpenApi\Annotations as OA;
 
 /**
  * @ORM\Entity(repositoryClass=ClientRepository::class)
- * @UniqueEntity("email", message="ce client existe dejà")
+ * @UniqueEntity(fields="email", message="Ce client existe dejà.", groups={"register"})
  *
  * @OA\Schema
  */
@@ -33,7 +33,8 @@ class Client implements UserInterface
     /**
      * @ORM\Column(type="string")
      * @Groups("client:read")
-     * @Assert\Email(groups={"registration"})
+     * @Assert\Email(groups={"register"})
+     * @Assert\Unique(groups={"register"})
      *
      * @OA\Property (type="string", description="email")
      */
@@ -42,7 +43,7 @@ class Client implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("client:read")
-     * @Assert\NotBlank(groups={"registration"})
+     * @Assert\NotBlank(groups={"register"})
      *
      * @OA\Property (type="string", description="client name")
      */
