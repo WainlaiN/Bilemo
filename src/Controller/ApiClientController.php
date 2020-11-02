@@ -69,9 +69,8 @@ class ApiClientController extends AbstractController
 
 
         if ($violations->count() > 0) {
-            return new JsonResponse(["error" => (string)$violations], 500);
+            return new JsonResponse(["error" => (string)$violations], 400);
         }
-
 
         $email = $data['email'];
         $name = $data['name'];
@@ -83,8 +82,6 @@ class ApiClientController extends AbstractController
         $client->setName($name);
         $client->setPassword($encoder->encodePassword($client, $password));
         $client->setRoles();
-
-
 
         try {
             $manager->persist($client);

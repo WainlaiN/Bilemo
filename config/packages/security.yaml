@@ -21,8 +21,13 @@ security:
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
 
+        api_register:
+            pattern: ^/api/client
+            stateless: true
+            anonymous: true
+
         api:
-            pattern: ^/api(?!/doc$), ^/api(?!/client$)
+            pattern: ^/api(?!/doc$)
             stateless: true
             guard:
                 authenticators:
