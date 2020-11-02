@@ -9,10 +9,15 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+
+use OpenApi\Annotations as OA;
 
 /**
  * @ORM\Entity(repositoryClass=ClientRepository::class)
- * @UniqueEntity("email", message="ce client existe dejà")
+ * @UniqueEntity(fields="email", message="Ce client existe dejà.", groups={"register"})
+ *
+ * @OA\Schema
  */
 class Client implements UserInterface
 {
@@ -20,18 +25,26 @@ class Client implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     *
+     * @OA\Property (type="int", property="id" ,description="Client unique ID")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string")
      * @Groups("client:read")
+     * @Assert\Email(groups={"register"})
+     *
+     * @OA\Property (type="string", description="email")
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("client:read")
+     * @Assert\NotBlank(groups={"register"})
+     *
+     * @OA\Property (type="string", description="client name")
      */
     private $name;
 
@@ -43,6 +56,7 @@ class Client implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min="8", groups={"register"})
      */
     private $password;
 
@@ -64,7 +78,7 @@ class Client implements UserInterface
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -137,7 +151,7 @@ class Client implements UserInterface
 
     public function getUsername()
     {
-        // TODO: Implement getUsername() method.
+        return $this->getEmail();
     }
 
     public function eraseCredentials()

@@ -6,7 +6,6 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Service\CacheContent;
 use App\Service\PaginatorService;
-use App\Service\UserValidator;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,6 +25,7 @@ use Nelmio\ApiDocBundle\Annotation\Security as OASecurity;
  * Class ApiUserController
  *
  * @package App\Controller
+ *
  * @OASecurity(name="Bearer")
  * @OA\Tag(name="User")
  */
