@@ -152,8 +152,7 @@ class ApiUserController extends AbstractController
         User $user,
         EntityManagerInterface $manager,
         ValidatorInterface $validator,
-        UrlGeneratorInterface $urlGenerator,
-        UserValidator $userValidator
+        UrlGeneratorInterface $urlGenerator
     ) {
 
         if (count($validator->validate($user)) > 0) {
