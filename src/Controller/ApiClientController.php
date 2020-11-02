@@ -67,6 +67,7 @@ class ApiClientController extends AbstractController
         $client->setPassword($encoder->encodePassword($client, $password));
         $client->setRoles();
 
+
         $violations = $validator->validate($client, null, "register");
 
         if ($violations->count() > 0) {
@@ -79,7 +80,7 @@ class ApiClientController extends AbstractController
         } catch (\Exception $e) {
             return new JsonResponse(["error" => $e->getMessage()], 500);
         }
-        return new JsonResponse(["success" => $client->getUsername(). " has been registered!"], 200);
+        return new JsonResponse(["success" => $client->getUsername(). " has been registered!"], 201);
     }
 }
 

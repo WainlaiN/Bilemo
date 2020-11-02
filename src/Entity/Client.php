@@ -34,7 +34,6 @@ class Client implements UserInterface
      * @ORM\Column(type="string")
      * @Groups("client:read")
      * @Assert\Email(groups={"register"})
-     * @Assert\Unique(groups={"register"})
      *
      * @OA\Property (type="string", description="email")
      */
@@ -57,7 +56,7 @@ class Client implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min="8",groups={"registration"})
+     * @Assert\Length(min="8", groups={"register"})
      */
     private $password;
 
