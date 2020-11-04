@@ -10,10 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**
- * Class PostConverter
+ * Class PostUserConverter
  * @package App\Request\ParamConverter
  */
-class PostConverter implements ParamConverterInterface
+class PostUserConverter implements ParamConverterInterface
 {
     /**
      * @var SerializerInterface

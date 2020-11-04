@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Security;
 
-class GetConverter implements ParamConverterInterface
+class GetUserConverter implements ParamConverterInterface
 {
     /** @var UserRepository */
     private $userRepository;

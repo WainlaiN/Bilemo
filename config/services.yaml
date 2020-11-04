@@ -31,17 +31,17 @@ services:
     # please note that last definitions always *replace* previous ones
 
     # user POST custom paramConverter
-    App\Request\ParamConverter\User\PostConverter:
+    App\Request\ParamConverter\User\PostUserConverter:
         tags:
             - { name : 'request.param_converter', converter: 'user_post' }
 
     # user GET custom paramConverter
-    App\Request\ParamConverter\User\GetConverter:
+    App\Request\ParamConverter\User\GetUserConverter:
         tags:
             - { name: 'request.param_converter', converter: 'user_get' }
 
     # product GET custom paramConverter
-    App\Request\ParamConverter\Product\GetConverter:
+    App\Request\ParamConverter\Product\GetProductConverter:
         tags:
             - { name: 'request.param_converter', converter: 'product_get' }
 

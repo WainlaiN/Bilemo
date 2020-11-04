@@ -9,7 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInte
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class GetConverter implements ParamConverterInterface
+class GetProductConverter implements ParamConverterInterface
 {
     /** @var ProductRepository */
     private $productRepository;
