@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class GetConverter implements ParamConverterInterface
 {
     /** @var ProductRepository */
-    protected $productRepository;
+    private $productRepository;
 
     public function __construct(ProductRepository $productRepository)
     {

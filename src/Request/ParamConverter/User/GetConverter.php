@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\Security;
 class GetConverter implements ParamConverterInterface
 {
     /** @var UserRepository */
-    protected $userRepository;
+    private $userRepository;
 
     /**
      * @var Security
