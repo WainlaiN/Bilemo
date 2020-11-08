@@ -130,14 +130,14 @@ class ApiUserController extends AbstractController
      * @OA\Parameter(
      *     name="username",
      *     in="query",
-     *     description="resource ID",
+     *     description="Username",
      *     required=true,
      *     @OA\Schema (type="string")
      *     ),
      * @OA\Parameter(
      *     name="email",
      *     in="query",
-     *     description="resource ID",
+     *     description="User email",
      *     required=true,
      *     @OA\Schema (type="string")
      *     ),

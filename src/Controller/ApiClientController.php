@@ -32,6 +32,27 @@ class ApiClientController extends AbstractController
      *
      * @Route("/api/client", name="api_client_registration", methods={"POST"})
      *
+     * @OA\Parameter(
+     *     name="email",
+     *     in="query",
+     *     description="Client email",
+     *     required=true,
+     *     @OA\Schema (type="string")
+     *     ),
+     * @OA\Parameter(
+     *     name="name",
+     *     in="query",
+     *     description="Client name",
+     *     required=true,
+     *     @OA\Schema (type="string")
+     *     ),
+     * @OA\Parameter(
+     *     name="Users",
+     *     in="query",
+     *     description="Client users",
+     *     required=false,
+     *     @OA\Schema (type="string")
+     *     ),
      *
      * @OA\Response(
      *     response=201,
