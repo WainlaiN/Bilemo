@@ -127,6 +127,20 @@ class ApiUserController extends AbstractController
      *
      * @Route("/api/user", name="api_user_post", methods={"POST"})
      *
+     * @OA\Parameter(
+     *     name="username",
+     *     in="query",
+     *     description="resource ID",
+     *     required=true,
+     *     @OA\Schema (type="string")
+     *     ),
+     * @OA\Parameter(
+     *     name="email",
+     *     in="query",
+     *     description="resource ID",
+     *     required=true,
+     *     @OA\Schema (type="string")
+     *     ),
      * @OA\Response(
      *     response=201,
      *     description="User added",
@@ -216,7 +230,7 @@ class ApiUserController extends AbstractController
         return $this->json(
             [
                 'status' => 404,
-                'message' => "Client introuvable",
+                'message' => "Client not found",
             ],
         );
     }
