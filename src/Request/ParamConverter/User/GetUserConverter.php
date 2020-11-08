@@ -36,7 +36,7 @@ class GetUserConverter implements ParamConverterInterface
 
         if ($user == null || $current_client !== $user->getClient()) {
 
-            throw new NotFoundHttpException("Client not found");
+            throw new NotFoundHttpException("User not found");
 
         } else {
 

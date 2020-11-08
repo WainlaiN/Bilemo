@@ -230,7 +230,7 @@ class ApiUserController extends AbstractController
         return $this->json(
             [
                 'status' => 404,
-                'message' => "Client not found",
+                'message' => "User not found",
             ],
         );
     }
