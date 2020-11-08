@@ -18,12 +18,17 @@ use JMS\Serializer\Annotation as Serializer;
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity("email", message="email dejà utilisé")
  *
- * @Hateoas\Relation("self",
- *      href="expr('/user/' ~ object.getId())"
+ * @Hateoas\Relation(
+ *     "SELF",
+ *      href="expr('api/user/' ~ object.getId())"
  *     )
  * @Hateoas\Relation(
- *     "post",
- *     href = "expr('/user/' ~ object.getId())"
+ *     "POST",
+ *     href = "expr('api/user/' ~ object.getId())"
+ * )
+ * @Hateoas\Relation(
+ *     "DELETE",
+ *     href = "expr('api/user/' ~ object.getId())"
  * )
  *
  * @OA\Schema
