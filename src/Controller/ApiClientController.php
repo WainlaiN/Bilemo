@@ -47,10 +47,10 @@ class ApiClientController extends AbstractController
      *     @OA\Schema (type="string")
      *     ),
      * @OA\Parameter(
-     *     name="Users",
+     *     name="password",
      *     in="query",
-     *     description="Client users",
-     *     required=false,
+     *     description="Client password",
+     *     required=true,
      *     @OA\Schema (type="string")
      *     ),
      *

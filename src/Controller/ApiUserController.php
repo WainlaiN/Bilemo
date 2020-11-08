@@ -118,10 +118,12 @@ class ApiUserController extends AbstractController
      */
     public function show(User $user)
     {
-        $app = $this;
 
         //create hateoas instance of JMS SerializerInterface
         $hateoas = HateoasBuilder::create()->build();
+
+        //$app = $app['url_generator']->generate('api_user_show');
+
         //$hateoas = HateoasBuilder::create()
             //->setUrlGenerator(null, new SymfonyUrlGenerator($app['url_generator']))
             //->build();

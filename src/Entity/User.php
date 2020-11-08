@@ -20,7 +20,7 @@ use JMS\Serializer\Annotation as Serializer;
  *
  * @Hateoas\Relation(
  *     "SELF",
- *      href="expr('api/user/' ~ object.getId())"
+ *      href="expr('api/user/' ~ object.getId())",
  *     )
  * @Hateoas\Relation(
  *     "POST",
@@ -30,7 +30,6 @@ use JMS\Serializer\Annotation as Serializer;
  *     "DELETE",
  *     href = "expr('api/user/' ~ object.getId())"
  * )
- *
  * @Hateoas\Relation(
  *      "test",
  *      href = @Hateoas\Route(
