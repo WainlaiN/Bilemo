@@ -7,6 +7,7 @@ use App\Repository\UserRepository;
 use App\Service\CacheContent;
 use App\Service\PaginatorService;
 use Doctrine\ORM\EntityManagerInterface;
+use Hateoas\UrlGenerator\SymfonyUrlGenerator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -117,9 +118,13 @@ class ApiUserController extends AbstractController
      */
     public function show(User $user)
     {
+        $app = $this;
 
         //create hateoas instance of JMS SerializerInterface
         $hateoas = HateoasBuilder::create()->build();
+        //$hateoas = HateoasBuilder::create()
+            //->setUrlGenerator(null, new SymfonyUrlGenerator($app['url_generator']))
+            //->build();
 
         $json = $hateoas->serialize($user, 'json');
 

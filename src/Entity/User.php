@@ -31,6 +31,14 @@ use JMS\Serializer\Annotation as Serializer;
  *     href = "expr('api/user/' ~ object.getId())"
  * )
  *
+ * @Hateoas\Relation(
+ *      "test",
+ *      href = @Hateoas\Route(
+ *          "api_user_show",
+ *          parameters = { "id" = "expr(object.getId())" }
+ *      )
+ * )
+ *
  * @OA\Schema
  */
 class User
