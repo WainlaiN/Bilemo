@@ -20,22 +20,15 @@ use JMS\Serializer\Annotation as Serializer;
  *
  * @Hateoas\Relation(
  *     "SELF",
- *      href="expr('api/user/' ~ object.getId())",
+ *      href="expr('/api/user/' ~ object.getId())",
  *     )
  * @Hateoas\Relation(
  *     "POST",
- *     href = "expr('api/user/' ~ object.getId())"
+ *     href = "expr('/api/user/' ~ object.getId())"
  * )
  * @Hateoas\Relation(
  *     "DELETE",
- *     href = "expr('api/user/' ~ object.getId())"
- * )
- * @Hateoas\Relation(
- *      "test",
- *      href = @Hateoas\Route(
- *          "api_user_show",
- *          parameters = { "id" = "expr(object.getId())" }
- *      )
+ *     href = "expr('/api/user/' ~ object.getId())"
  * )
  *
  * @OA\Schema

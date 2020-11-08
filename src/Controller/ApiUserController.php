@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Service\CacheContent;
+use App\Service\HateoasService;
 use App\Service\PaginatorService;
 use Doctrine\ORM\EntityManagerInterface;
 use Hateoas\UrlGenerator\SymfonyUrlGenerator;
@@ -36,10 +37,15 @@ class ApiUserController extends AbstractController
      * @var Security
      */
     private $security;
+    /**
+     * @var HateoasService
+     */
+    private $hateoasService;
 
-    public function __construct(Security $security)
+    public function __construct(Security $security, HateoasService $hateoasService)
     {
         $this->security = $security;
+        $this->hateoasService = $hateoasService;
     }
 
     /**
@@ -78,10 +84,14 @@ class ApiUserController extends AbstractController
     ) {
         $query = $userRepository->findPageByClient($this->security->getUser());
 
+        //get page data with page limit
         $data = $paginator->paginate($query, '5', $page);
 
-        $response = $this->json($data, 200, [], ['groups' => 'client:read']);
+        $json = $this->hateoasService->serializeHypermedia($data);
 
+        $response = new JsonResponse($json, 200, [], true);
+
+        //return cached response
         return $cacheContent->addToCache($request, $response);
     }
 
@@ -118,24 +128,9 @@ class ApiUserController extends AbstractController
      */
     public function show(User $user)
     {
-
-        //create hateoas instance of JMS SerializerInterface
-        $hateoas = HateoasBuilder::create()->build();
-
-        //$app = $app['url_generator']->generate('api_user_show');
-
-        //$hateoas = HateoasBuilder::create()
-            //->setUrlGenerator(null, new SymfonyUrlGenerator($app['url_generator']))
-            //->build();
-
-        $json = $hateoas->serialize($user, 'json');
+       $json = $this->hateoasService->serializeHypermedia($user);
 
         return new JsonResponse($json, 200, [], true);
-
-        //return $this->json($json, 200, [], ['groups' => 'client:read']);
-
-
-
     }
 
     /**

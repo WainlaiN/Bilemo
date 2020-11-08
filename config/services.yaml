@@ -53,6 +53,9 @@ services:
     # add service to manage cache
     App\Service\CacheContent:
 
+    # add service to serialize with Relation for Hypermedia
+    App\Service\HateoasService:
+
     # add service to paginate query
     PaginatorService:
         class: App\Service\PaginatorService
