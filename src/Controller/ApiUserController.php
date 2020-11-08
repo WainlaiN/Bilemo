@@ -19,6 +19,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use OpenApi\Annotations as OA;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security as OASecurity;
+use Hateoas\HateoasBuilder;
 
 /**
  * Class ApiUserController
@@ -116,7 +117,17 @@ class ApiUserController extends AbstractController
      */
     public function show(User $user)
     {
-        return $this->json($user, 200, [], ['groups' => 'client:read']);
+
+        //create hateoas instance of JMS SerializerInterface
+        $hateoas = HateoasBuilder::create()->build();
+
+        $json = $hateoas->serialize($user, 'json');
+
+        return new JsonResponse($json, 200, [], true);
+
+        //return $this->json($json, 200, [], ['groups' => 'client:read']);
+
+
 
     }
 

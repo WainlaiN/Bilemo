@@ -10,11 +10,21 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use OpenApi\Annotations as OA;
+use Hateoas\Configuration\Annotation as Hateoas;
+use JMS\Serializer\Annotation as Serializer;
 
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity("email", message="email dejà utilisé")
+ *
+ * @Hateoas\Relation("self",
+ *      href="expr('/user/' ~ object.getId())"
+ *     )
+ * @Hateoas\Relation(
+ *     "post",
+ *     href = "expr('/user/' ~ object.getId())"
+ * )
  *
  * @OA\Schema
  */
@@ -48,6 +58,8 @@ class User
 
     /**
      * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="users")
+     *
+     * @Serializer\Exclude()
      */
     private $client;
 
