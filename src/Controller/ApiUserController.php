@@ -69,8 +69,8 @@ class ApiUserController extends AbstractController
      * @OA\Response(
      *     response=404,
      *     description="Page Not found",
-     *     @OA\JsonContent(description="Returned when the page is not found.")
-     * )
+     *     @OA\JsonContent(example="Only 5 pages available.")
+     *     )
      *
      *
      */
@@ -117,7 +117,7 @@ class ApiUserController extends AbstractController
      * @OA\Response(
      *     response=404,
      *     description="User Not found",
-     *     @OA\JsonContent(description="Returned when the user is not found.")
+     *     @OA\JsonContent(example="User not found.")
      * )
      *
      * @ParamConverter("user", converter="user_get")
@@ -161,7 +161,7 @@ class ApiUserController extends AbstractController
      * @OA\Response(
      *     response=400,
      *     description="Invalid JSON",
-     *     @OA\JsonContent(description="Returned when the user is not validated.")
+     *     @OA\JsonContent(example="Control character error, possibly incorrectly encoded.")
      *     )
      * )
      *
@@ -220,7 +220,7 @@ class ApiUserController extends AbstractController
      * @OA\Response(
      *     response=404,
      *     description="User Not found",
-     *     @OA\JsonContent(description="Returned when the user is not found.")
+     *     @OA\JsonContent(example="User not found.")
      * )
      *
      * @param User $user
