@@ -56,8 +56,8 @@ class ApiClientController extends AbstractController
      *
      * @OA\Response(
      *     response=201,
-     *     description="User added",
-     *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=Client::class, groups={"client:read"}))
+     *     description="Returns client added",
+     *     @Model(type=Client::class)
      *     )),
      * @OA\Response(
      *     response=400,

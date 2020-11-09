@@ -24,7 +24,7 @@ use JMS\Serializer\Annotation as Serializer;
  *     )
  * @Hateoas\Relation(
  *     "POST",
- *     href = "expr('/api/user/' ~ object.getId())"
+ *     href = "/api/user"
  * )
  * @Hateoas\Relation(
  *     "DELETE",
@@ -36,6 +36,8 @@ use JMS\Serializer\Annotation as Serializer;
 class User
 {
     /**
+     * Unique ID for User
+     *
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")

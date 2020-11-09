@@ -8,7 +8,6 @@ use App\Service\CacheContent;
 use App\Service\HateoasService;
 use App\Service\PaginatorService;
 use Doctrine\ORM\EntityManagerInterface;
-use Hateoas\UrlGenerator\SymfonyUrlGenerator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,7 +20,6 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use OpenApi\Annotations as OA;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security as OASecurity;
-use Hateoas\HateoasBuilder;
 
 /**
  * Class ApiUserController
@@ -66,13 +64,14 @@ class ApiUserController extends AbstractController
      * @OA\Response(
      *     response=200,
      *     description="Returns users list",
-     *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=User::class, groups={"client:read"}))
+     *     @Model(type=User::class)
      *     )),
      * @OA\Response(
      *     response=404,
      *     description="Page Not found",
      *     @OA\JsonContent(description="Returned when the page is not found.")
      * )
+     *
      *
      */
     public function getUsersByPage(
@@ -112,8 +111,8 @@ class ApiUserController extends AbstractController
      *     ),
      * @OA\Response(
      *     response=200,
-     *     description="Returns the user detail",
-     *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=User::class, groups={"client:read"}))
+     *     description="Returns user detail",
+     *     @Model(type=User::class)
      *     )),
      * @OA\Response(
      *     response=404,
@@ -156,8 +155,8 @@ class ApiUserController extends AbstractController
      *     ),
      * @OA\Response(
      *     response=201,
-     *     description="User added",
-     *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=User::class, groups={"client:read"}))
+     *     description="Returns user added",
+     *     @Model(type=User::class)
      *     )),
      * @OA\Response(
      *     response=400,

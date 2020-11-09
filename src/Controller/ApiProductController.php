@@ -53,7 +53,7 @@ class ApiProductController extends AbstractController
      * @OA\Response(
      *     response=200,
      *     description="Returns products list",
-     *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=Product::class, groups={"client:read"}))
+     *     @Model(type=Product::class)
      *     )),
      * @OA\Response(
      *     response=404,
@@ -98,8 +98,8 @@ class ApiProductController extends AbstractController
      *     ),
      * @OA\Response(
      *     response=200,
-     *     description="Returns the product detail",
-     *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=Product::class, groups={"client:read"}))
+     *     description="Returns product detail",
+     *     @Model(type=Product::class)
      *     )),
      * @OA\Response(
      *     response=404,
