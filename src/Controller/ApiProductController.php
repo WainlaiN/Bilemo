@@ -58,7 +58,7 @@ class ApiProductController extends AbstractController
      * @OA\Response(
      *     response=404,
      *     description="Page Not found",
-     *     @OA\JsonContent(description="Returned when the page is not found.")
+     *     @OA\JsonContent(example="Only 5 pages available.")
      * )
      *
      */
@@ -104,7 +104,7 @@ class ApiProductController extends AbstractController
      * @OA\Response(
      *     response=404,
      *     description="Product Not found",
-     *     @OA\JsonContent(description="Returned when the product is not found.")
+     *     @OA\JsonContent(example="Product not found.")
      *     ))
      *
      *
