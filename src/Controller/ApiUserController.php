@@ -46,7 +46,9 @@ class ApiUserController extends AbstractController
         $this->hateoasService = $hateoasService;
     }
 
+
     /**
+     *
      * Paginate users list from current client.
      *
      * This call display all users belonging to client with pagination.
@@ -72,7 +74,12 @@ class ApiUserController extends AbstractController
      *     @OA\JsonContent(example="Only 5 pages available.")
      *     )
      *
-     *
+     * @param $page
+     * @param UserRepository $userRepository
+     * @param PaginatorService $paginator
+     * @param Request $request
+     * @param CacheContent $cacheContent
+     * @return JsonResponse
      */
     public function getUsersByPage(
         $page,

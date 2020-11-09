@@ -31,10 +31,16 @@ class ApiProductController extends AbstractController
      */
     private $hateoasService;
 
+    /**
+     * ApiProductController constructor.
+     *
+     * @param HateoasService $hateoasService
+     */
     public function __construct(HateoasService $hateoasService)
     {
         $this->hateoasService = $hateoasService;
     }
+
 
     /**
      * Paginate products list.
@@ -60,7 +66,12 @@ class ApiProductController extends AbstractController
      *     description="Page Not found",
      *     @OA\JsonContent(example="Only 5 pages available.")
      * )
-     *
+     * @param $page
+     * @param ProductRepository $productRepository
+     * @param PaginatorService $paginator
+     * @param Request $request
+     * @param CacheContent $cacheContent
+     * @return JsonResponse
      */
     public function getProductsByPage(
         $page,
