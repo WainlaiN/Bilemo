@@ -62,12 +62,12 @@ class ApiClientController extends AbstractController
      * @OA\Response(
      *     response=400,
      *     description="Invalid JSON",
-     *     @OA\JsonContent(description="Returned when error in JSON.")
+     *     @OA\JsonContent(example="Control character error, possibly incorrectly encoded.")
      *     )),
      * @OA\Response(
      *     response=500,
      *     description="Request Problem",
-     *     @OA\JsonContent(description="Returned when error while persisting the client.")
+     *     @OA\JsonContent(example="Server problem, please contact the admin.")
      *     ))
      *
      * @param Request $request
