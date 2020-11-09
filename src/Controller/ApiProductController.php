@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Product;
 use App\Repository\ProductRepository;
 use App\Service\CacheContent;
+use App\Service\HateoasService;
 use App\Service\PaginatorService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,6 +26,15 @@ use Nelmio\ApiDocBundle\Annotation\Security as OASecurity;
  */
 class ApiProductController extends AbstractController
 {
+    /**
+     * @var HateoasService
+     */
+    private $hateoasService;
+
+    public function __construct(HateoasService $hateoasService)
+    {
+        $this->hateoasService = $hateoasService;
+    }
 
     /**
      * Paginate products list.
@@ -43,12 +53,12 @@ class ApiProductController extends AbstractController
      * @OA\Response(
      *     response=200,
      *     description="Returns products list",
-     *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=Product::class, groups={"client:read"}))
+     *     @Model(type=Product::class)
      *     )),
      * @OA\Response(
      *     response=404,
      *     description="Page Not found",
-     *     @OA\JsonContent(description="Returned when the page is not found.")
+     *     @OA\JsonContent(example="Only 5 pages available.")
      * )
      *
      */
@@ -61,10 +71,14 @@ class ApiProductController extends AbstractController
     ) {
         $query = $productRepository->findPageByProduct();
 
+        //get page data with page limit
         $data = $paginator->paginate($query, '10', $page);
 
-        $response = $this->json($data, 200, [], ['groups' => 'client:read']);
+        $json = $this->hateoasService->serializeHypermedia($data);
 
+        $response = new JsonResponse($json, 200, [], true);
+
+        //return cached response
         return $cacheContent->addToCache($request, $response);
     }
 
@@ -84,13 +98,13 @@ class ApiProductController extends AbstractController
      *     ),
      * @OA\Response(
      *     response=200,
-     *     description="Returns the product detail",
-     *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=Product::class, groups={"client:read"}))
+     *     description="Returns product detail",
+     *     @Model(type=Product::class)
      *     )),
      * @OA\Response(
      *     response=404,
      *     description="Product Not found",
-     *     @OA\JsonContent(description="Returned when the product is not found.")
+     *     @OA\JsonContent(example="Product not found.")
      *     ))
      *
      *
@@ -100,6 +114,8 @@ class ApiProductController extends AbstractController
      */
     public function show(Product $product)
     {
-        return $this->json($product, 200, [], ['groups' => 'client:read']);
+        $json = $this->hateoasService->serializeHypermedia($product);
+
+        return new JsonResponse($json, 200, [], true);
     }
 }

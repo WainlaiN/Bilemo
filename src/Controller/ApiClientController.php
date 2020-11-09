@@ -47,17 +47,17 @@ class ApiClientController extends AbstractController
      *     @OA\Schema (type="string")
      *     ),
      * @OA\Parameter(
-     *     name="Users",
+     *     name="password",
      *     in="query",
-     *     description="Client users",
-     *     required=false,
+     *     description="Client password",
+     *     required=true,
      *     @OA\Schema (type="string")
      *     ),
      *
      * @OA\Response(
      *     response=201,
-     *     description="User added",
-     *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=Client::class, groups={"client:read"}))
+     *     description="Returns client added",
+     *     @Model(type=Client::class)
      *     )),
      * @OA\Response(
      *     response=400,

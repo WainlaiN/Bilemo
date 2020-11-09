@@ -7,9 +7,16 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 use OpenApi\Annotations as OA;
+use Hateoas\Configuration\Annotation as Hateoas;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
+ *
+ * @Hateoas\Relation(
+ *     "SELF",
+ *      href="expr('/api/product/' ~ object.getId())",
+ *     )
  *
  * @OA\Schema
  */

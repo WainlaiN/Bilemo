@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Service\CacheContent;
+use App\Service\HateoasService;
 use App\Service\PaginatorService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -34,10 +35,15 @@ class ApiUserController extends AbstractController
      * @var Security
      */
     private $security;
+    /**
+     * @var HateoasService
+     */
+    private $hateoasService;
 
-    public function __construct(Security $security)
+    public function __construct(Security $security, HateoasService $hateoasService)
     {
         $this->security = $security;
+        $this->hateoasService = $hateoasService;
     }
 
     /**
@@ -58,13 +64,14 @@ class ApiUserController extends AbstractController
      * @OA\Response(
      *     response=200,
      *     description="Returns users list",
-     *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=User::class, groups={"client:read"}))
+     *     @Model(type=User::class)
      *     )),
      * @OA\Response(
      *     response=404,
      *     description="Page Not found",
-     *     @OA\JsonContent(description="Returned when the page is not found.")
-     * )
+     *     @OA\JsonContent(example="Only 5 pages available.")
+     *     )
+     *
      *
      */
     public function getUsersByPage(
@@ -76,10 +83,14 @@ class ApiUserController extends AbstractController
     ) {
         $query = $userRepository->findPageByClient($this->security->getUser());
 
+        //get page data with page limit
         $data = $paginator->paginate($query, '5', $page);
 
-        $response = $this->json($data, 200, [], ['groups' => 'client:read']);
+        $json = $this->hateoasService->serializeHypermedia($data);
 
+        $response = new JsonResponse($json, 200, [], true);
+
+        //return cached response
         return $cacheContent->addToCache($request, $response);
     }
 
@@ -100,13 +111,13 @@ class ApiUserController extends AbstractController
      *     ),
      * @OA\Response(
      *     response=200,
-     *     description="Returns the user detail",
-     *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=User::class, groups={"client:read"}))
+     *     description="Returns user detail",
+     *     @Model(type=User::class)
      *     )),
      * @OA\Response(
      *     response=404,
      *     description="User Not found",
-     *     @OA\JsonContent(description="Returned when the user is not found.")
+     *     @OA\JsonContent(example="User not found.")
      * )
      *
      * @ParamConverter("user", converter="user_get")
@@ -116,8 +127,9 @@ class ApiUserController extends AbstractController
      */
     public function show(User $user)
     {
-        return $this->json($user, 200, [], ['groups' => 'client:read']);
+       $json = $this->hateoasService->serializeHypermedia($user);
 
+        return new JsonResponse($json, 200, [], true);
     }
 
     /**
@@ -143,13 +155,13 @@ class ApiUserController extends AbstractController
      *     ),
      * @OA\Response(
      *     response=201,
-     *     description="User added",
-     *     @OA\JsonContent(type="array",@OA\Items(ref=@Model(type=User::class, groups={"client:read"}))
+     *     description="Returns user added",
+     *     @Model(type=User::class)
      *     )),
      * @OA\Response(
      *     response=400,
      *     description="Invalid JSON",
-     *     @OA\JsonContent(description="Returned when the user is not validated.")
+     *     @OA\JsonContent(example="Control character error, possibly incorrectly encoded.")
      *     )
      * )
      *
@@ -208,7 +220,7 @@ class ApiUserController extends AbstractController
      * @OA\Response(
      *     response=404,
      *     description="User Not found",
-     *     @OA\JsonContent(description="Returned when the user is not found.")
+     *     @OA\JsonContent(example="User not found.")
      * )
      *
      * @param User $user
