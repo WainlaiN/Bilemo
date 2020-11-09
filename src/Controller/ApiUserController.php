@@ -183,8 +183,7 @@ class ApiUserController extends AbstractController
     function post(
         User $user,
         EntityManagerInterface $manager,
-        ValidatorInterface $validator,
-        UrlGeneratorInterface $urlGenerator
+        ValidatorInterface $validator
     ) {
 
         if (count($validator->validate($user)) > 0) {
@@ -196,14 +195,10 @@ class ApiUserController extends AbstractController
         $manager->persist($user);
         $manager->flush();
 
-        $url = $urlGenerator->generate("api_user_show", ["id" => $user->getId()]);
+        $json = $this->hateoasService->serializeHypermedia($user, "default");
 
-        return $this->json(
-            $user,
-            201,
-            ["Location" => $url],
-            ['groups' => 'client:read']
-        );
+        return new JsonResponse($json, 201, [], true);
+
     }
 
     /**
