@@ -78,11 +78,11 @@ Choisissez votre serveur en fonction de votre système d'exploitation:
 ```
     php bin/console server:start -d
 ```
-9. Le projet est maintenant installé, vous pouvez tester l'application sur cette URL:
+10. Le projet est maintenant installé, vous pouvez tester l'application sur cette URL:
 ```
     http://127.0.0.1:8000/api/doc
 ```
-10. Librairies utilisée
+11. Librairies utilisée
 
     - [Faker](https://github.com/fzaninotto/Faker) : Librairie permettant de générer des données « fake » pour les fixtures.
     - [Nelmio/api-doc-bundle](https://github.com/nelmio/NelmioApiDocBundle): Génération de la documentation API avec OpenAPI.
