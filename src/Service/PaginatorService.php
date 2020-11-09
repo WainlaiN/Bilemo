@@ -23,9 +23,6 @@ class PaginatorService
 
         $paginator = new Paginator($query);
 
-        //$totalItems = $this->total($paginator);
-        //$pagesCount = ceil($totalItems / $pageSize);
-
         // now get one page's items:
         $data = $paginator
             ->getQuery()
