@@ -80,7 +80,7 @@ Choisissez votre serveur en fonction de votre système d'exploitation:
 ```
 9. Le projet est maintenant installé, vous pouvez tester l'application sur cette URL:
 ```
-    http://127.0.0.1:8000
+    http://127.0.0.1:8000/api/doc
 ```
 
 ## Auteur
