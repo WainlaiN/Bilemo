@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 use OpenApi\Annotations as OA;
 use Hateoas\Configuration\Annotation as Hateoas;
@@ -16,6 +15,7 @@ use JMS\Serializer\Annotation as Serializer;
  * @Hateoas\Relation(
  *     "SELF",
  *      href="expr('/api/product/' ~ object.getId())",
+ *      exclusion = @Hateoas\Exclusion(groups={"default"})
  *     )
  *
  * @OA\Schema
@@ -26,7 +26,6 @@ class Product
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("client:read")
      *
      * @OA\Property (type="integer", property="id", description="Product unique ID")
      */
@@ -34,7 +33,8 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("client:read")
+     *
+     * @Serializer\Groups({"default"})
      *
      * @OA\Property (type="string", description="Product model")
      */
@@ -42,7 +42,8 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("client:read")
+     *
+     * @Serializer\Groups({"default"})
      *
      * @OA\Property (type="string", description="Product price")
      */
@@ -50,7 +51,8 @@ class Product
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("client:read")
+     *
+     * @Serializer\Groups({"default"})
      *
      * @OA\Property (type="string", description="Product brand")
      */

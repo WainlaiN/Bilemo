@@ -93,7 +93,7 @@ class ApiUserController extends AbstractController
         //get page data with page limit
         $data = $paginator->paginate($query, '5', $page);
 
-        $json = $this->hateoasService->serializeHypermedia($data);
+        $json = $this->hateoasService->serializeHypermedia($data, "default");
 
         $response = new JsonResponse($json, 200, [], true);
 
@@ -134,7 +134,7 @@ class ApiUserController extends AbstractController
      */
     public function show(User $user)
     {
-       $json = $this->hateoasService->serializeHypermedia($user);
+       $json = $this->hateoasService->serializeHypermedia($user, "default");
 
         return new JsonResponse($json, 200, [], true);
     }

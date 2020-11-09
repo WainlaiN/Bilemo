@@ -85,7 +85,7 @@ class ApiProductController extends AbstractController
         //get page data with page limit
         $data = $paginator->paginate($query, '10', $page);
 
-        $json = $this->hateoasService->serializeHypermedia($data);
+        $json = $this->hateoasService->serializeHypermedia($data, 'default');
 
         $response = new JsonResponse($json, 200, [], true);
 
@@ -125,7 +125,7 @@ class ApiProductController extends AbstractController
      */
     public function show(Product $product)
     {
-        $json = $this->hateoasService->serializeHypermedia($product);
+        $json = $this->hateoasService->serializeHypermedia($product, 'default');
 
         return new JsonResponse($json, 200, [], true);
     }

@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -21,14 +20,17 @@ use JMS\Serializer\Annotation as Serializer;
  * @Hateoas\Relation(
  *     "SELF",
  *      href="expr('/api/user/' ~ object.getId())",
+ *     exclusion = @Hateoas\Exclusion(groups={"default"})
  *     )
  * @Hateoas\Relation(
  *     "POST",
- *     href = "/api/user"
+ *     href = "/api/user",
+ *     exclusion = @Hateoas\Exclusion(groups={"default"})
  * )
  * @Hateoas\Relation(
  *     "DELETE",
- *     href = "expr('/api/user/' ~ object.getId())"
+ *     href = "expr('/api/user/' ~ object.getId())",
+ *     exclusion = @Hateoas\Exclusion(groups={"default"})
  * )
  *
  * @OA\Schema
@@ -48,8 +50,9 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("client:read")
      * @Assert\NotBlank()
+     *
+     * @Serializer\Groups({"default"})
      *
      * @OA\Property (type="string", description="username")
      */
@@ -57,7 +60,8 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups("client:read")
+     *
+     * @Serializer\Groups({"default"})
      *
      * @OA\Property (type="string", description="email")
      */
