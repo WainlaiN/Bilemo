@@ -29,6 +29,8 @@ Contraintes :
 
 Choisissez votre serveur en fonction de votre système d'exploitation:
 
+    - Composer : (https://getcomposer.org/)
+    - Git : (https://git-scm.com/downloads)
     - Windows : WAMP (http://www.wampserver.com/)
     - MAC : MAMP (https://www.mamp.info/en/mamp/)
     - Linux : LAMP (https://doc.ubuntu-fr.org/lamp)
