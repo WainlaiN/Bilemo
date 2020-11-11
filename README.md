@@ -61,34 +61,39 @@ Choisissez votre serveur en fonction de votre système d'exploitation:
     composer install
 
 ```
-6. Créez la base de données si elle n'existe pas déjà, taper la commande ci-dessous en vous plaçant dans le répertoire du projet :
+5. Créez la base de données si elle n'existe pas déjà, taper la commande ci-dessous en vous plaçant dans le répertoire du projet :
 ```
     php bin/console doctrine:database:create
 ```
-7. Créez les tables de la base de données :
+6. Créez les tables de la base de données :
 ```
     php bin/console doctrine:schema:update --force
 ```
    
-8. (Optionnel) Installer les fixtures pour avoir une démo de données fictives :
+7. (Optionnel) Installer les fixtures pour avoir une démo de données fictives :
 ```
     php bin/console doctrine:fixtures:load
 ```
-9. Lancement du serveur :
+8. Lancement du serveur :
 ```
     php bin/console server:start -d
 ```
-10. Le projet est maintenant installé, vous pouvez tester l'application sur cette URL:
+9. Le projet est maintenant installé, vous pouvez tester l'application sur cette URL:
 ```
     http://127.0.0.1:8000/api/doc
 ```
-11. Librairies utilisée
+10. Librairies utilisée
 
     - [Faker](https://github.com/fzaninotto/Faker) : Librairie permettant de générer des données « fake » pour les fixtures.
     - [Nelmio/api-doc-bundle](https://github.com/nelmio/NelmioApiDocBundle): Génération de la documentation API avec OpenAPI.
     - [Lexik/jwt-authentication-bundle](https://github.com/lexik/LexikJWTAuthenticationBundle): Authentification Json Web Token pour Symfony.
     - [Willdurand/hateoas-bundle](https://github.com/willdurand/Hateoas): Gestion des liens Hypermedia (Richardson level 3).
     - JMSSerializerBundle: Hateoas est une instance du JMS SerializerInterface
+    
+11. Documentation Technique:
+
+    - [Bilemo](http://bilemo.nicodev.ovh/api/doc)
+    - [JSON](http://bilemo.nicodev.ovh/api/doc.json)
 
 
 ## Auteur
