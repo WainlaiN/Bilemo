@@ -83,18 +83,18 @@ Choisissez votre serveur en fonction de votre système d'exploitation:
     http://127.0.0.1:8000/api/doc
 ```
 10. Librairies utilisée
-
+```
     - [Faker](https://github.com/fzaninotto/Faker) : Librairie permettant de générer des données « fake » pour les fixtures.
     - [Nelmio/api-doc-bundle](https://github.com/nelmio/NelmioApiDocBundle): Génération de la documentation API avec OpenAPI.
     - [Lexik/jwt-authentication-bundle](https://github.com/lexik/LexikJWTAuthenticationBundle): Authentification Json Web Token pour Symfony.
     - [Willdurand/hateoas-bundle](https://github.com/willdurand/Hateoas): Gestion des liens Hypermedia (Richardson level 3).
     - JMSSerializerBundle: Hateoas est une instance du JMS SerializerInterface
-    
+```    
 11. Documentation Technique:
-
+```
     - [Bilemo](http://bilemo.nicodev.ovh/api/doc)
     - [JSON](http://bilemo.nicodev.ovh/api/doc.json)
-
+```
 
 ## Auteur
 
